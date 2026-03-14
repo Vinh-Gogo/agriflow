@@ -8,8 +8,8 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Droplets, Thermometer, Wind, Gauge, ArrowLeft, Play, Square, Sparkles, Activity, History } from "lucide-react";
 import Link from "next/link";
-import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
-import { Line, LineChart, XAxis, YAxis, CartesianGrid, ResponsiveContainer } from "recharts";
+import { ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
+import { Line, LineChart, XAxis, YAxis, CartesianGrid } from "recharts";
 import { useState, useEffect } from "react";
 import { explainThirstIndex, ThirstIndexExplainerOutput } from "@/ai/flows/thirst-index-explainer";
 
@@ -21,6 +21,17 @@ const chartData = [
   { time: "16:00", moisture: 32, temp: 30 },
   { time: "18:00", moisture: 40, temp: 27 },
 ];
+
+const chartConfig = {
+  moisture: {
+    label: "Moisture %",
+    color: "hsl(var(--primary))",
+  },
+  temp: {
+    label: "Temp °C",
+    color: "hsl(var(--accent))",
+  },
+} satisfies ChartConfig;
 
 const wateringLogs = [
   { date: "Oct 24, 05:00 AM", duration: "15 min", amount: "45L", mode: "Drip" },
@@ -60,7 +71,6 @@ export default function ZoneDetailPage() {
         });
         setAiExplanation(explanation);
       } catch (err) {
-        // Error handled centrally by error emitter if needed, but for flows we just log
         console.error("AI flow error:", err);
       } finally {
         setLoadingAi(false);
@@ -140,18 +150,16 @@ export default function ZoneDetailPage() {
             </div>
           </CardHeader>
           <CardContent>
-            <div className="h-[300px]">
-              <ResponsiveContainer width="100%" height="100%">
-                <LineChart data={chartData}>
-                  <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f0f0f0" />
-                  <XAxis dataKey="time" axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: '#888' }} />
-                  <YAxis axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: '#888' }} />
-                  <ChartTooltip content={<ChartTooltipContent />} />
-                  <Line type="monotone" dataKey="moisture" stroke="hsl(var(--primary))" strokeWidth={3} dot={{ r: 4, fill: "hsl(var(--primary))", strokeWidth: 2 }} activeDot={{ r: 6 }} name="Moisture %" />
-                  <Line type="monotone" dataKey="temp" stroke="hsl(var(--accent))" strokeWidth={3} dot={{ r: 4, fill: "hsl(var(--accent))", strokeWidth: 2 }} activeDot={{ r: 6 }} name="Temp °C" />
-                </LineChart>
-              </ResponsiveContainer>
-            </div>
+            <ChartContainer config={chartConfig} className="h-[300px] w-full">
+              <LineChart data={chartData}>
+                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f0f0f0" />
+                <XAxis dataKey="time" axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: '#888' }} />
+                <YAxis axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: '#888' }} />
+                <ChartTooltip content={<ChartTooltipContent />} />
+                <Line type="monotone" dataKey="moisture" stroke="var(--color-moisture)" strokeWidth={3} dot={{ r: 4, fill: "var(--color-moisture)", strokeWidth: 2 }} activeDot={{ r: 6 }} name="Moisture %" />
+                <Line type="monotone" dataKey="temp" stroke="var(--color-temp)" strokeWidth={3} dot={{ r: 4, fill: "var(--color-temp)", strokeWidth: 2 }} activeDot={{ r: 6 }} name="Temp °C" />
+              </LineChart>
+            </ChartContainer>
           </CardContent>
         </Card>
 
