@@ -1,0 +1,23 @@
+
+{
+  "placeholderImages": [
+    {
+      "id": "garden-hero",
+      "description": "A lush, green garden with automated irrigation",
+      "imageUrl": "https://picsum.photos/seed/hydrosense1/1200/600",
+      "imageHint": "lush garden"
+    },
+    {
+      "id": "drip-irrigation",
+      "description": "Close up of a drip irrigation system",
+      "imageUrl": "https://picsum.photos/seed/hydrosense2/600/400",
+      "imageHint": "drip irrigation"
+    },
+    {
+      "id": "sprinkler-system",
+      "description": "Sprinkler system watering a lawn",
+      "imageUrl": "https://picsum.photos/seed/hydrosense3/600/400",
+      "imageHint": "lawn sprinkler"
+    }
+  ]
+}
