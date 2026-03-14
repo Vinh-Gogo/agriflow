@@ -289,30 +289,56 @@ export default function SystemMapPage() {
                 className="dark:fill-slate-950 dark:stroke-slate-800"
               />
 
-              {/* Water Distribution Network */}
+              {/* Dense Water Distribution Network */}
               <g className="pipes">
+                {/* Main Pipeline (Trunk) */}
                 <path 
                   d="M 200,650 L 200,50"
+                  fill="none" 
+                  stroke="#0ea5e9" 
+                  strokeWidth="8" 
+                  strokeLinecap="round"
+                  className="opacity-50"
+                />
+                <path 
+                  d="M 200,450 L 850,450"
                   fill="none" 
                   stroke="#0ea5e9" 
                   strokeWidth="6" 
                   strokeLinecap="round"
                   className="opacity-40"
                 />
-                <path 
-                  d="M 200,450 L 850,450"
-                  fill="none" 
-                  stroke="#0ea5e9" 
-                  strokeWidth="4" 
-                  strokeLinecap="round"
-                  className="opacity-30"
-                />
+
+                {/* Secondary Branches for Zone 1 */}
+                <path d="M 200,100 L 100,100 M 200,100 L 300,100" stroke="#0ea5e9" strokeWidth="3" className="opacity-30" />
+                <path d="M 200,200 L 100,200 M 200,200 L 300,200" stroke="#0ea5e9" strokeWidth="3" className="opacity-30" />
+                {/* Tertiary Micro-branches for Zone 1 */}
+                <path d="M 100,100 L 100,80 M 100,100 L 100,120 M 300,100 L 300,80 M 300,100 L 300,120" stroke="#0ea5e9" strokeWidth="1" className="opacity-20" />
+
+                {/* Secondary Branches for Zone 4 */}
+                <path d="M 200,300 L 120,300 M 200,300 L 280,300" stroke="#0ea5e9" strokeWidth="3" className="opacity-30" />
+                <path d="M 200,400 L 120,400 M 200,400 L 280,400" stroke="#0ea5e9" strokeWidth="3" className="opacity-30" />
+
+                {/* Secondary Branches for Zone 3 */}
+                <path d="M 200,500 L 100,500 M 200,500 L 300,500" stroke="#0ea5e9" strokeWidth="3" className="opacity-30" />
+                <path d="M 200,600 L 100,600 M 200,600 L 300,600" stroke="#0ea5e9" strokeWidth="3" className="opacity-30" />
+
+                {/* Secondary Branches for Zone 2 */}
+                <path d="M 400,450 L 400,400 M 400,450 L 400,600" stroke="#0ea5e9" strokeWidth="3" className="opacity-30" />
+                <path d="M 550,450 L 550,400 M 550,450 L 550,600" stroke="#0ea5e9" strokeWidth="3" className="opacity-30" />
+                {/* Tertiary Micro-branches for Zone 2 */}
+                <path d="M 400,400 L 380,400 M 400,400 L 420,400 M 400,600 L 380,600 M 400,600 L 420,600" stroke="#0ea5e9" strokeWidth="1" className="opacity-20" />
+
+                {/* Animated Flow Nodes */}
                 <circle r="3" fill="#38bdf8">
                   <animateMotion dur="4s" repeatCount="indefinite" path="M 200,650 L 200,50" />
                 </circle>
+                <circle r="2.5" fill="#38bdf8" opacity="0.7">
+                  <animateMotion dur="3s" repeatCount="indefinite" path="M 200,450 L 850,450" />
+                </circle>
               </g>
 
-              {/* Zone 1: Vegetable Garden (Stem Top) */}
+              {/* Zone 1: Vegetable Garden */}
               <TooltipProvider>
                 <Tooltip>
                   <TooltipTrigger asChild>
@@ -341,7 +367,7 @@ export default function SystemMapPage() {
                 </Tooltip>
               </TooltipProvider>
 
-              {/* Zone 4: Lawn (Stem Middle) */}
+              {/* Zone 4: Lawn */}
               <TooltipProvider>
                 <Tooltip>
                   <TooltipTrigger asChild>
@@ -370,7 +396,7 @@ export default function SystemMapPage() {
                 </Tooltip>
               </TooltipProvider>
 
-              {/* Zone 3: Flower Garden (Bottom Left Corner) */}
+              {/* Zone 3: Flower Garden */}
               <TooltipProvider>
                 <Tooltip>
                   <TooltipTrigger asChild>
@@ -399,7 +425,7 @@ export default function SystemMapPage() {
                 </Tooltip>
               </TooltipProvider>
 
-              {/* Zone 2: Orchard (Adjacent to Base Left) */}
+              {/* Zone 2: Orchard */}
               <TooltipProvider>
                 <Tooltip>
                   <TooltipTrigger asChild>
@@ -428,7 +454,7 @@ export default function SystemMapPage() {
                 </Tooltip>
               </TooltipProvider>
 
-              {/* Zone 5: Unequipped (Far Right Base) */}
+              {/* Zone 5: Unequipped */}
               <TooltipProvider>
                 <Tooltip>
                   <TooltipTrigger asChild>
@@ -485,6 +511,12 @@ export default function SystemMapPage() {
                     <div className="flex items-center gap-3"><div className="size-4 rounded-lg bg-orange-500" /><span className="text-sm">Đang tưới</span></div>
                     <div className="flex items-center gap-3"><div className="size-4 rounded-lg bg-red-500" /><span className="text-sm">Khẩn cấp</span></div>
                     <div className="flex items-center gap-3"><div className="size-4 rounded-lg bg-zinc-700" /><span className="text-sm">Chưa lắp đặt</span></div>
+                    <div className="pt-2 border-t border-slate-100 dark:border-slate-800">
+                      <div className="flex items-center gap-2 text-[10px] text-slate-400">
+                        <div className="w-6 h-1 bg-sky-500/50 rounded-full" />
+                        <span>Hệ thống ống dẫn</span>
+                      </div>
+                    </div>
                   </motion.div>
                 )}
               </AnimatePresence>
@@ -538,3 +570,4 @@ export default function SystemMapPage() {
     </div>
   );
 }
+
