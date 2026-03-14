@@ -8,10 +8,9 @@
 - [x] AI Weekly Irrigation Summary flow.
 - [x] System Analytics page with AI reports.
 - [x] Dark Mode toggle in Settings via `next-themes`.
-- [x] Memory Bank initialization and maintenance.
+- [x] **Advanced 2D Architectural System Map** with organic shapes, gradients, and animated flow patterns.
 - [x] Accessibility compliant UI components (Dialogs/Sheets).
 - [x] Comprehensive project README.
-- [x] **2D Architectural System Map** with real-time status color-coding.
 
 ## Left to Build
 - [ ] Real-time Firebase Firestore integration.
