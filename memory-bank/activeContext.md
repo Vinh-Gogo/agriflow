@@ -1,11 +1,12 @@
 # Active Context: HydroSense Hub
 
 ## Current Focus
-- Upgrading the Architectural Map with organic visuals and better interactivity.
-- Ensuring the new map functionality works seamlessly with dark mode.
+- Upgrading the Architectural Map with organic visuals and precise infrastructure tracking.
+- Ensuring water flow animations strictly follow pipe paths for realistic visualization.
 - Maintaining project documentation integrity.
 
 ## Recent Changes
+- **Refined Flow Animations**: Linked SVG flow particles to the primary `id` of pipe paths using `<mpath>`, ensuring water travels strictly within the distribution network.
 - **Upgraded System Map**: Implemented an advanced version of the 2D architectural map using spline curves, gradients, and animated SVG elements.
 - **Improved Map UI**: Added a detailed info sidebar with AnimatePresence transitions and a network status overview.
 - Fixed `DialogContent` accessibility warning in `src/components/ui/sheet.tsx` using `VisuallyHidden`.

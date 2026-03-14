@@ -260,6 +260,7 @@ export default function SystemMapPage() {
               <g className="pipes" strokeLinecap="round" strokeLinejoin="round">
                 {/* Main Trunk Pipeline */}
                 <path 
+                  id="trunk-pipe"
                   d="M 200,650 L 200,50" 
                   stroke="url(#pipe-gradient)" 
                   strokeWidth="12" 
@@ -267,8 +268,9 @@ export default function SystemMapPage() {
                   className="drop-shadow-lg"
                 />
                 
-                {/* Main Horizontal Branch with seamless T-junction */}
+                {/* Main Horizontal Branch */}
                 <path 
+                  id="horizontal-branch"
                   d="M 200,450 L 600,450" 
                   stroke="url(#pipe-gradient)" 
                   strokeWidth="10" 
@@ -276,24 +278,20 @@ export default function SystemMapPage() {
                   className="drop-shadow-lg"
                 />
 
-                {/* Zone 1 & 4 Branching - perfectly connected paths */}
-                <path d="M 200,100 L 100,100 M 200,100 L 300,100" stroke="#0ea5e9" strokeWidth="6" fill="none" className="opacity-80" />
-                <path d="M 200,200 L 100,200 M 200,200 L 300,200" stroke="#0ea5e9" strokeWidth="6" fill="none" className="opacity-80" />
-                <path d="M 200,350 L 100,350 M 200,350 L 300,350" stroke="#0ea5e9" strokeWidth="6" fill="none" className="opacity-80" />
+                {/* Zone 1 & 4 Branching paths */}
+                <path id="branch-z1-top" d="M 200,100 L 100,100" stroke="#0ea5e9" strokeWidth="6" fill="none" className="opacity-80" />
+                <path id="branch-z1-mid" d="M 200,200 L 100,200" stroke="#0ea5e9" strokeWidth="6" fill="none" className="opacity-80" />
+                <path id="branch-z4-main" d="M 200,350 L 100,350" stroke="#0ea5e9" strokeWidth="6" fill="none" className="opacity-80" />
                 
-                {/* Micro distribution lines connected to branches */}
-                <path d="M 100,100 L 100,50 M 300,100 L 300,50" stroke="#38bdf8" strokeWidth="3" fill="none" className="opacity-60" />
-                <path d="M 100,200 L 100,250 M 300,200 L 300,250" stroke="#38bdf8" strokeWidth="3" fill="none" className="opacity-60" />
-
                 {/* Zone 3 connectivity */}
-                <path d="M 200,550 L 100,550 M 200,550 L 300,550" stroke="#0ea5e9" strokeWidth="6" fill="none" className="opacity-80" />
-                <path d="M 200,600 L 100,600 M 200,600 L 300,600" stroke="#0ea5e9" strokeWidth="6" fill="none" className="opacity-80" />
+                <path id="branch-z3-top" d="M 200,550 L 100,550" stroke="#0ea5e9" strokeWidth="6" fill="none" className="opacity-80" />
+                <path id="branch-z3-bot" d="M 200,600 L 100,600" stroke="#0ea5e9" strokeWidth="6" fill="none" className="opacity-80" />
 
-                {/* Zone 2 Connectivity - Vertical sub-trunk from horizontal branch */}
-                <path d="M 400,450 L 400,650 M 500,450 L 500,650" stroke="#0ea5e9" strokeWidth="6" fill="none" className="opacity-80" />
-                <path d="M 350,400 L 600,400 M 350,500 L 600,500 M 350,600 L 600,600" stroke="#38bdf8" strokeWidth="4" fill="none" className="opacity-70" />
+                {/* Zone 2 Connectivity */}
+                <path id="branch-z2-v1" d="M 400,450 L 400,650" stroke="#0ea5e9" strokeWidth="6" fill="none" className="opacity-80" />
+                <path id="branch-z2-v2" d="M 500,450 L 500,650" stroke="#0ea5e9" strokeWidth="6" fill="none" className="opacity-80" />
 
-                {/* Junction Hubs for seamless visual transition */}
+                {/* Junction Hubs */}
                 <circle cx="200" cy="450" r="8" fill="#0284c7" stroke="white" strokeWidth="2" className="drop-shadow-md" />
                 <circle cx="200" cy="100" r="6" fill="#0284c7" stroke="white" strokeWidth="2" className="drop-shadow-md" />
                 <circle cx="200" cy="200" r="6" fill="#0284c7" stroke="white" strokeWidth="2" className="drop-shadow-md" />
@@ -302,18 +300,46 @@ export default function SystemMapPage() {
                 <circle cx="400" cy="450" r="6" fill="#0284c7" stroke="white" strokeWidth="2" className="drop-shadow-md" />
                 <circle cx="500" cy="450" r="6" fill="#0284c7" stroke="white" strokeWidth="2" className="drop-shadow-md" />
 
-                {/* FLOW ANIMATIONS */}
+                {/* FLOW ANIMATIONS - STRICTLY FOLLOWING PIPES */}
+                {/* Flow on Trunk */}
                 <circle r="4" fill="#7dd3fc" filter="drop-shadow(0 0 4px #38bdf8)">
-                  <animateMotion dur="3s" repeatCount="indefinite" path="M 200,650 L 200,50" />
+                  <animateMotion dur="4s" repeatCount="indefinite">
+                    <mpath href="#trunk-pipe" />
+                  </animateMotion>
                 </circle>
+                <circle r="3" fill="#ffffff" opacity="0.6">
+                  <animateMotion dur="4s" begin="2s" repeatCount="indefinite">
+                    <mpath href="#trunk-pipe" />
+                  </animateMotion>
+                </circle>
+
+                {/* Flow on Horizontal Branch */}
                 <circle r="3" fill="#7dd3fc">
-                  <animateMotion dur="2s" repeatCount="indefinite" path="M 200,450 L 600,450" />
+                  <animateMotion dur="2.5s" repeatCount="indefinite">
+                    <mpath href="#horizontal-branch" />
+                  </animateMotion>
+                </circle>
+
+                {/* Flow on Sub-branches */}
+                <circle r="2.5" fill="#7dd3fc">
+                  <animateMotion dur="1.5s" repeatCount="indefinite">
+                    <mpath href="#branch-z1-top" />
+                  </animateMotion>
                 </circle>
                 <circle r="2.5" fill="#7dd3fc">
-                  <animateMotion dur="1.5s" repeatCount="indefinite" path="M 200,100 L 100,100" />
+                  <animateMotion dur="1.8s" repeatCount="indefinite">
+                    <mpath href="#branch-z4-main" />
+                  </animateMotion>
                 </circle>
                 <circle r="2.5" fill="#7dd3fc">
-                  <animateMotion dur="2s" repeatCount="indefinite" path="M 400,450 L 400,650" />
+                  <animateMotion dur="2s" repeatCount="indefinite">
+                    <mpath href="#branch-z2-v1" />
+                  </animateMotion>
+                </circle>
+                <circle r="2.5" fill="#7dd3fc">
+                  <animateMotion dur="2.2s" repeatCount="indefinite">
+                    <mpath href="#branch-z3-bot" />
+                  </animateMotion>
                 </circle>
               </g>
 
