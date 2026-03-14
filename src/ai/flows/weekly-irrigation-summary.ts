@@ -81,13 +81,7 @@ Weekly Irrigation Data:
     {{/each}}
 {{/if}}
 ---
-{{/each}}
-
-Please structure your response according to the following JSON schema, ensuring all fields are populated appropriately:
-\`\`\`json
-{{jsonSchema WeeklyIrrigationSummaryOutputSchema}}
-\`\`\`
-`,
+{{/each}}`,
 });
 
 const weeklyIrrigationSummaryFlow = ai.defineFlow(
