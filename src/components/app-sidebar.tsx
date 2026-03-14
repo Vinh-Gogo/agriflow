@@ -9,6 +9,7 @@ import {
   Settings,
   ShieldCheck,
   Zap,
+  Map as MapIcon,
 } from "lucide-react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
@@ -37,6 +38,11 @@ const navItems = [
     title: "Watering Zones",
     url: "/zones",
     icon: Droplets,
+  },
+  {
+    title: "System Map",
+    url: "/map",
+    icon: MapIcon,
   },
   {
     title: "Automations",

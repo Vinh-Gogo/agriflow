@@ -11,6 +11,7 @@
 - [x] Memory Bank initialization and maintenance.
 - [x] Accessibility compliant UI components (Dialogs/Sheets).
 - [x] Comprehensive project README.
+- [x] **2D Architectural System Map** with real-time status color-coding.
 
 ## Left to Build
 - [ ] Real-time Firebase Firestore integration.

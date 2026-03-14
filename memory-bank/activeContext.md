@@ -1,19 +1,18 @@
 # Active Context: HydroSense Hub
 
 ## Current Focus
-- Enhancing mobile usability with responsive navigation triggers.
+- Visualizing system infrastructure via the Architectural Map.
+- Ensuring mobile usability with responsive navigation triggers.
 - Maintaining Memory Bank integrity to track project evolution.
-- Ensuring AI flows are robust and provide meaningful insights.
 
 ## Recent Changes
+- **Implemented System Map**: A new 2D visualization page using SVGs to show plot layout, water pipes, and sensor placement.
+- **Color-Coded Hydration Logic**: Zones on the map change color based on thirst level (Green/Orange/Red/Black).
 - Fixed `ReferenceError: SettingsIcon is not defined` in `src/app/page.tsx` by adding missing lucide-react import.
 - Resolved `DialogContent` accessibility warning in `src/components/ui/sheet.tsx` using `VisuallyHidden`.
 - Modernized the UI to follow a professional, data-driven "feed" aesthetic inspired by dev-to-clone.
-- Added a responsive **Mobile Header** in `layout.tsx` featuring a `SidebarTrigger` and branding for better mobile navigation.
-- Initialized the **Cline Memory Bank** structure to ensure context persistence across sessions.
 - Fixed `jsonSchema` parsing error in `weekly-irrigation-summary.ts`.
 - Implemented **Analytics** page with AI-generated weekly reports.
-- Fixed `useChart` runtime error in `ZoneDetailPage`.
 
 ## Next Steps
 - Implement actual Firebase backend integration (currently using mock data).
