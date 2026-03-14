@@ -1,4 +1,3 @@
-
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
@@ -40,7 +39,7 @@ export default function Dashboard() {
           </CardContent>
         </Card>
 
-        <Card className="border-none shadow-sm bg-white">
+        <Card className="border-none shadow-sm bg-white dark:bg-slate-900">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
             <CardTitle className="text-sm font-medium text-muted-foreground">Active Zones</CardTitle>
             <Droplets className="size-4 text-primary" />
@@ -51,7 +50,7 @@ export default function Dashboard() {
           </CardContent>
         </Card>
 
-        <Card className="border-none shadow-sm bg-white">
+        <Card className="border-none shadow-sm bg-white dark:bg-slate-900">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
             <CardTitle className="text-sm font-medium text-muted-foreground">Avg. Soil Moisture</CardTitle>
             <Thermometer className="size-4 text-accent" />
@@ -62,7 +61,7 @@ export default function Dashboard() {
           </CardContent>
         </Card>
 
-        <Card className="border-none shadow-sm bg-white">
+        <Card className="border-none shadow-sm bg-white dark:bg-slate-900">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
             <CardTitle className="text-sm font-medium text-muted-foreground">Weather Guard</CardTitle>
             <Wind className="size-4 text-amber-500" />
@@ -76,8 +75,8 @@ export default function Dashboard() {
 
       <div className="grid gap-6 md:grid-cols-7">
         {/* Main Content: Zones Summary */}
-        <Card className="md:col-span-4 border-none shadow-sm overflow-hidden bg-white">
-          <CardHeader className="border-b bg-slate-50/50 py-4 px-6">
+        <Card className="md:col-span-4 border-none shadow-sm overflow-hidden bg-white dark:bg-slate-900">
+          <CardHeader className="border-b dark:border-slate-800 bg-slate-50/50 dark:bg-slate-800/50 py-4 px-6">
             <div className="flex items-center justify-between">
               <div>
                 <CardTitle className="text-lg font-semibold">Active Zones</CardTitle>
@@ -89,14 +88,14 @@ export default function Dashboard() {
             </div>
           </CardHeader>
           <CardContent className="p-0">
-            <div className="divide-y">
+            <div className="divide-y dark:divide-slate-800">
               {mockZones.map((zone) => (
-                <div key={zone.id} className="flex items-center justify-between p-4 hover:bg-slate-50 transition-colors">
+                <div key={zone.id} className="flex items-center justify-between p-4 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
                   <div className="flex items-center gap-4">
                     <div className={`p-2 rounded-full ${
                       zone.status === 'Watering' ? 'bg-primary/10 text-primary' : 
                       zone.status === 'Warning' ? 'bg-destructive/10 text-destructive' : 
-                      'bg-slate-100 text-slate-500'
+                      'bg-slate-100 dark:bg-slate-800 text-slate-500'
                     }`}>
                       <Droplets className="size-5" />
                     </div>
@@ -125,13 +124,13 @@ export default function Dashboard() {
         </Card>
 
         {/* Sidebar: Notifications/Alerts */}
-        <Card className="md:col-span-3 border-none shadow-sm bg-white">
-          <CardHeader className="border-b bg-slate-50/50 py-4 px-6">
+        <Card className="md:col-span-3 border-none shadow-sm bg-white dark:bg-slate-900">
+          <CardHeader className="border-b dark:border-slate-800 bg-slate-50/50 dark:bg-slate-800/50 py-4 px-6">
             <CardTitle className="text-lg font-semibold">System Alerts</CardTitle>
             <CardDescription>Recent events and notifications.</CardDescription>
           </CardHeader>
           <CardContent className="p-0">
-            <div className="divide-y">
+            <div className="divide-y dark:divide-slate-800">
               {mockAlerts.map((alert) => (
                 <div key={alert.id} className="p-4 flex gap-4">
                   <div className="mt-0.5">
@@ -155,7 +154,7 @@ export default function Dashboard() {
       </div>
 
       {/* Weekly Insight Section (Place for AI Call) */}
-      <Card className="border-none shadow-sm bg-accent/10 border-accent/20">
+      <Card className="border-none shadow-sm bg-accent/10 dark:bg-accent/5 border-accent/20">
         <CardContent className="flex flex-col md:flex-row items-center justify-between p-6 gap-6">
           <div className="space-y-2">
             <div className="flex items-center gap-2">

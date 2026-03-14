@@ -1,4 +1,7 @@
+"use client"
 
+import * as React from "react";
+import { useTheme } from "next-themes";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -9,6 +12,17 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Shield, Smartphone, HardDrive, Wifi, Cloud, AlertCircle } from "lucide-react";
 
 export default function SettingsPage() {
+  const { theme, setTheme } = useTheme();
+  const [mounted, setMounted] = React.useState(false);
+
+  React.useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) {
+    return null;
+  }
+
   return (
     <div className="space-y-8">
       <div>
@@ -17,7 +31,7 @@ export default function SettingsPage() {
       </div>
 
       <Tabs defaultValue="general" className="w-full">
-        <TabsList className="bg-slate-100 p-1 mb-8">
+        <TabsList className="bg-slate-100 dark:bg-slate-800 p-1 mb-8">
           <TabsTrigger value="general" className="px-8">General</TabsTrigger>
           <TabsTrigger value="gateways" className="px-8">Gateways</TabsTrigger>
           <TabsTrigger value="safety" className="px-8">Safety & Limits</TabsTrigger>
@@ -25,7 +39,7 @@ export default function SettingsPage() {
         </TabsList>
 
         <TabsContent value="general" className="space-y-6">
-          <Card className="border-none shadow-sm bg-white">
+          <Card className="border-none shadow-sm bg-white dark:bg-slate-900">
             <CardHeader>
               <CardTitle className="text-lg flex items-center gap-2"><Smartphone className="size-5" /> Interface Settings</CardTitle>
               <CardDescription>Personalize how you interact with the HydroSense Hub.</CardDescription>
@@ -36,7 +50,10 @@ export default function SettingsPage() {
                   <Label>Dark Mode</Label>
                   <p className="text-sm text-muted-foreground">Adjust display colors for night use.</p>
                 </div>
-                <Switch />
+                <Switch 
+                  checked={theme === "dark"} 
+                  onCheckedChange={(checked) => setTheme(checked ? "dark" : "light")} 
+                />
               </div>
               <Separator />
               <div className="flex items-center justify-between">
@@ -50,11 +67,11 @@ export default function SettingsPage() {
               <div className="grid gap-4 md:grid-cols-2">
                 <div className="space-y-2">
                   <Label>Measurement Unit</Label>
-                  <Input placeholder="Metric (Celsius, Liters)" disabled />
+                  <Input placeholder="Metric (Celsius, Liters)" disabled className="bg-slate-50 dark:bg-slate-800" />
                 </div>
                 <div className="space-y-2">
                   <Label>Language</Label>
-                  <Input placeholder="English" disabled />
+                  <Input placeholder="English" disabled className="bg-slate-50 dark:bg-slate-800" />
                 </div>
               </div>
             </CardContent>
@@ -62,16 +79,16 @@ export default function SettingsPage() {
         </TabsContent>
 
         <TabsContent value="gateways" className="space-y-6">
-          <Card className="border-none shadow-sm bg-white">
+          <Card className="border-none shadow-sm bg-white dark:bg-slate-900">
             <CardHeader>
               <CardTitle className="text-lg flex items-center gap-2"><HardDrive className="size-5" /> Gateway Devices</CardTitle>
               <CardDescription>Manage your ESP32 and Raspberry Pi nodes.</CardDescription>
             </CardHeader>
             <CardContent className="p-0">
-               <div className="divide-y">
+               <div className="divide-y dark:divide-slate-800">
                   <div className="p-6 flex items-center justify-between">
                      <div className="flex items-center gap-4">
-                        <div className="size-10 rounded bg-emerald-100 text-emerald-600 flex items-center justify-center">
+                        <div className="size-10 rounded bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 flex items-center justify-center">
                            <Wifi className="size-6" />
                         </div>
                         <div>
@@ -83,7 +100,7 @@ export default function SettingsPage() {
                   </div>
                   <div className="p-6 flex items-center justify-between">
                      <div className="flex items-center gap-4">
-                        <div className="size-10 rounded bg-emerald-100 text-emerald-600 flex items-center justify-center">
+                        <div className="size-10 rounded bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 flex items-center justify-center">
                            <Wifi className="size-6" />
                         </div>
                         <div>
@@ -99,7 +116,7 @@ export default function SettingsPage() {
         </TabsContent>
 
         <TabsContent value="safety" className="space-y-6">
-          <Card className="border-none shadow-sm bg-white">
+          <Card className="border-none shadow-sm bg-white dark:bg-slate-900">
             <CardHeader>
               <CardTitle className="text-lg flex items-center gap-2 text-destructive"><Shield className="size-5" /> Safety Protocols</CardTitle>
               <CardDescription>Define system emergency stop thresholds.</CardDescription>
@@ -108,21 +125,21 @@ export default function SettingsPage() {
               <div className="grid gap-6 md:grid-cols-2">
                 <div className="space-y-2">
                   <Label>Max Main Line Pressure (bar)</Label>
-                  <Input defaultValue="3.5" type="number" />
+                  <Input defaultValue="3.5" type="number" className="bg-slate-50 dark:bg-slate-800" />
                   <p className="text-[10px] text-muted-foreground">System will auto-stop if exceeded.</p>
                 </div>
                 <div className="space-y-2">
                   <Label>Max Wind Speed for Sprinklers (m/s)</Label>
-                  <Input defaultValue="5.0" type="number" />
+                  <Input defaultValue="5.0" type="number" className="bg-slate-50 dark:bg-slate-800" />
                   <p className="text-[10px] text-muted-foreground">Sprinklers will pause during high winds.</p>
                 </div>
                 <div className="space-y-2">
                   <Label>Leak Sensitivity (%)</Label>
-                  <Input defaultValue="15" type="number" />
+                  <Input defaultValue="15" type="number" className="bg-slate-50 dark:bg-slate-800" />
                 </div>
                 <div className="space-y-2">
                   <Label>Emergency Contact Number</Label>
-                  <Input placeholder="+84 ..." />
+                  <Input placeholder="+84 ..." className="bg-slate-50 dark:bg-slate-800" />
                 </div>
               </div>
               <div className="pt-4">
