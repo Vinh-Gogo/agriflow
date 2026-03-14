@@ -49,33 +49,7 @@ const WaterParticle = ({ pathId, delay = 0, duration = 2, size = 5 }: {
   </g>
 );
 
-// Flow direction arrow marker
-const FlowArrow = ({ x, y, rotation, pulseDelay = 0 }: { 
-  x: number; 
-  y: number; 
-  rotation: number;
-  pulseDelay?: number;
-}) => (
-  <g transform={`translate(${x}, ${y}) rotate(${rotation})`}>
-    <polygon points="-6,-4 6,0 -6,4" fill="#ffffff" opacity="0.9">
-      <animate 
-        attributeName="opacity" 
-        values="0.4;1;0.4" 
-        dur="1.5s" 
-        begin={`${pulseDelay}s`}
-        repeatCount="indefinite" 
-      />
-    </polygon>
-  </g>
-);
-
 export function SystemMapSvg({ zoom, isFlowing, flowSpeed, zones, selectedZone, setSelectedZone, hoveredZone, setHoveredZone }: SystemMapSvgProps) {
-  const unequippedArea = {
-    id: 'zone-5',
-    name: 'Kho Bãi & Vùng Đệm',
-    description: 'Khu vực chưa lắp đặt hệ thống tưới tự động',
-  };
-
   const sensorNodes = [
     { id: 'S1', zoneId: zones[0]?.id, x: 200, y: 150 },
     { id: 'S4', zoneId: zones[3]?.id, x: 200, y: 350 },
@@ -123,6 +97,7 @@ export function SystemMapSvg({ zoom, isFlowing, flowSpeed, zones, selectedZone, 
           <circle cx="18" cy="5" r="1" fill="#52525b" opacity="0.4" />
         </pattern>
 
+        {/* HIGH INTENSITY PIPE GRADIENTS */}
         <linearGradient id="pipe-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
           <stop offset="0%" stopColor="#1e3a8a" />
           <stop offset="15%" stopColor="#2563eb" />
@@ -133,6 +108,7 @@ export function SystemMapSvg({ zoom, isFlowing, flowSpeed, zones, selectedZone, 
           <stop offset="100%" stopColor="#1e3a8a" />
         </linearGradient>
 
+        {/* Specular highlight for pipes */}
         <linearGradient id="pipe-highlight" x1="0%" y1="0%" x2="0%" y2="100%">
           <stop offset="0%" stopColor="#93c5fd" stopOpacity="0.95" />
           <stop offset="40%" stopColor="#dbeafe" stopOpacity="0.7" />
@@ -175,6 +151,7 @@ export function SystemMapSvg({ zoom, isFlowing, flowSpeed, zones, selectedZone, 
       </pattern>
       <rect width="900" height="700" fill="url(#grid)" />
 
+      {/* PLOT BOUNDARY */}
       <path 
         d="M 50,50 L 350,50 L 350,350 L 600,350 L 600,50 L 850,50 L 850,650 L 50,650 Z"
         fill="#ffffff" 
@@ -184,29 +161,23 @@ export function SystemMapSvg({ zoom, isFlowing, flowSpeed, zones, selectedZone, 
         className="dark:fill-slate-950 dark:stroke-slate-600"
       />
 
-      {/* PIPE NETWORK LAYER */}
+      {/* PIPE NETWORK LAYER - HIGH VISIBILITY */}
       <g className="pipes" strokeLinecap="round" strokeLinejoin="round">
+        {/* Trunk line paths */}
         <path id="trunk-pipe" d="M 200,680 L 200,50" stroke="#3b82f6" strokeWidth="24" fill="none" filter="url(#pipe-glow)" opacity="0.25" />
         <path d="M 200,680 L 200,50" stroke="url(#pipe-gradient)" strokeWidth="18" fill="none" />
         <path d="M 200,680 L 200,50" stroke="url(#pipe-highlight)" strokeWidth="8" fill="none" opacity="0.8" />
 
+        {/* Horizontal branch paths */}
         <path id="horizontal-branch" d="M 200,450 L 600,450" stroke="#3b82f6" strokeWidth="22" fill="none" filter="url(#pipe-glow)" opacity="0.25" />
         <path d="M 200,450 L 600,450" stroke="url(#pipe-gradient)" strokeWidth="16" fill="none" />
         <path d="M 200,450 L 600,450" stroke="url(#pipe-highlight)" strokeWidth="7" fill="none" opacity="0.8" />
 
+        {/* Zone sub-branches */}
         <path id="branch-z1-main" d="M 200,100 L 100,100" stroke="url(#pipe-gradient)" strokeWidth="12" fill="none" />
-        <path id="branch-z1-sub1" d="M 100,100 L 100,150" stroke="url(#pipe-gradient)" strokeWidth="10" fill="none" />
-        <path id="branch-z1-sub2" d="M 100,100 L 250,100" stroke="url(#pipe-gradient)" strokeWidth="10" fill="none" />
-
         <path id="branch-z4-main" d="M 200,300 L 100,300" stroke="url(#pipe-gradient)" strokeWidth="12" fill="none" />
-        <path id="branch-z4-sub1" d="M 100,300 L 100,350" stroke="url(#pipe-gradient)" strokeWidth="10" fill="none" />
-
         <path id="branch-z3-main" d="M 200,550 L 100,550" stroke="url(#pipe-gradient)" strokeWidth="12" fill="none" />
-        <path id="branch-z3-sub1" d="M 100,550 L 100,600" stroke="url(#pipe-gradient)" strokeWidth="10" fill="none" />
-
         <path id="branch-z2-main" d="M 400,450 L 400,550" stroke="url(#pipe-gradient)" strokeWidth="12" fill="none" />
-        <path id="branch-z2-sub1" d="M 400,550 L 350,550" stroke="url(#pipe-gradient)" strokeWidth="10" fill="none" />
-        <path id="branch-z2-v1" d="M 500,450 L 500,600" stroke="url(#pipe-gradient)" strokeWidth="12" fill="none" />
 
         {/* Junction Hubs */}
         <g transform="translate(200, 450)">
@@ -220,9 +191,8 @@ export function SystemMapSvg({ zoom, isFlowing, flowSpeed, zones, selectedZone, 
         <circle cx="200" cy="300" r="13" fill="url(#hub-gradient)" stroke="#ffffff" strokeWidth="3" />
         <circle cx="200" cy="550" r="13" fill="url(#hub-gradient)" stroke="#ffffff" strokeWidth="3" />
         <circle cx="400" cy="450" r="13" fill="url(#hub-gradient)" stroke="#ffffff" strokeWidth="3" />
-        <circle cx="500" cy="450" r="13" fill="url(#hub-gradient)" stroke="#ffffff" strokeWidth="3" />
 
-        {/* FLOW ANIMATIONS */}
+        {/* FLOW ANIMATIONS - STRICTLY FOLLOWING PIPE PATHS */}
         {isFlowing && (
           <g className="flow-animations" filter="url(#particle-glow)">
             <WaterParticle pathId="trunk-pipe" delay={0} duration={2.5 / flowSpeed} size={6} />
@@ -265,6 +235,7 @@ export function SystemMapSvg({ zoom, isFlowing, flowSpeed, zones, selectedZone, 
                     fill={styles.fill} 
                     stroke={styles.stroke} 
                     strokeWidth={hoveredZone === z.id ? 4 : styles.strokeWidth}
+                    opacity="0.8"
                   />
                   <g transform={`translate(${z.x + z.w - 25}, ${z.y + 20})`}>
                     <CircleDot className="size-5" stroke={styles.stroke} strokeWidth="2" fill={styles.stroke} />
@@ -298,7 +269,6 @@ export function SystemMapSvg({ zoom, isFlowing, flowSpeed, zones, selectedZone, 
                     <circle r="10" fill="#dbeafe" />
                     <Droplets className="size-5 text-blue-600" x="-2.5" y="-2.5" />
                     <text y="22" x="0" className="text-[10px] font-black fill-blue-600 dark:fill-blue-400" textAnchor="middle">{sensor.id}</text>
-                    {/* Activity ring */}
                     <circle r="14" fill="none" stroke="#2563eb" strokeWidth="1" className="animate-ping opacity-20" />
                   </g>
                 </TooltipTrigger>
@@ -344,7 +314,6 @@ export function SystemMapSvg({ zoom, isFlowing, flowSpeed, zones, selectedZone, 
         <circle r="20" fill="#1e40af" stroke="#60a5fa" strokeWidth="4" className="drop-shadow-xl" />
         <circle r="14" fill="url(#hub-gradient)" />
         <Waves className="size-7 text-white" x="-3.5" y="-3.5" />
-        <text y="26" x="0" className="text-[9px] font-bold fill-blue-700 dark:fill-blue-400" textAnchor="middle">NGUỒN</text>
       </g>
     </motion.svg>
   );
