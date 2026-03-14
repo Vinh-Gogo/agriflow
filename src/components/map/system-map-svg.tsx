@@ -17,7 +17,7 @@ interface SystemMapSvgProps {
   setHoveredZone: (id: string | null) => void;
 }
 
-// Enhanced water particle with trail effect
+// Enhanced water particle strictly following a path via id
 const WaterParticle = ({ pathId, delay = 0, duration = 2, size = 5 }: { 
   pathId: string; 
   delay?: number; 
@@ -51,6 +51,7 @@ const WaterParticle = ({ pathId, delay = 0, duration = 2, size = 5 }: {
 );
 
 export function SystemMapSvg({ zoom, isFlowing, flowSpeed, zones, selectedZone, setSelectedZone, hoveredZone, setHoveredZone }: SystemMapSvgProps) {
+  // Coordinates for the 4 sensor nodes
   const sensorNodes = [
     { id: 'S1', zoneId: zones[0]?.id, x: 200, y: 150 },
     { id: 'S4', zoneId: zones[3]?.id, x: 200, y: 350 },
@@ -67,7 +68,52 @@ export function SystemMapSvg({ zoom, isFlowing, flowSpeed, zones, selectedZone, 
       style={{ transformOrigin: 'center center' }}
     >
       <defs>
-        {/* Zone Gradients */}
+        {/* HIGH INTENSITY PIPE GRADIENTS */}
+        <linearGradient id="pipe-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stopColor="#1e3a8a" />
+          <stop offset="15%" stopColor="#2563eb" />
+          <stop offset="35%" stopColor="#3b82f6" />
+          <stop offset="50%" stopColor="#60a5fa" />
+          <stop offset="65%" stopColor="#3b82f6" />
+          <stop offset="85%" stopColor="#2563eb" />
+          <stop offset="100%" stopColor="#1e3a8a" />
+        </linearGradient>
+
+        {/* Specular highlight for professional look */}
+        <linearGradient id="pipe-highlight" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stopColor="#93c5fd" stopOpacity="0.95" />
+          <stop offset="40%" stopColor="#dbeafe" stopOpacity="0.7" />
+          <stop offset="50%" stopColor="#ffffff" stopOpacity="0.9" />
+          <stop offset="60%" stopColor="#dbeafe" stopOpacity="0.7" />
+          <stop offset="100%" stopColor="#93c5fd" stopOpacity="0.95" />
+        </linearGradient>
+
+        {/* Glow Filters */}
+        <filter id="pipe-glow" x="-100%" y="-100%" width="300%" height="300%">
+          <feGaussianBlur stdDeviation="6" result="blur" />
+          <feComposite in="SourceGraphic" in2="blur" operator="over" />
+        </filter>
+
+        <filter id="particle-glow" x="-100%" y="-100%" width="300%" height="300%">
+          <feGaussianBlur stdDeviation="4" result="blur" />
+          <feMerge>
+            <feMergeNode in="blur" />
+            <feMergeNode in="SourceGraphic" />
+          </feMerge>
+        </filter>
+
+        <radialGradient id="hub-gradient">
+          <stop offset="0%" stopColor="#bfdbfe" />
+          <stop offset="50%" stopColor="#3b82f6" />
+          <stop offset="100%" stopColor="#1e40af" />
+        </radialGradient>
+
+        <radialGradient id="pulse-gradient">
+          <stop offset="0%" stopColor="#60a5fa" stopOpacity="0.9" />
+          <stop offset="100%" stopColor="#3b82f6" stopOpacity="0" />
+        </radialGradient>
+
+        {/* Zone-specific gradients and patterns */}
         <linearGradient id="gradient-healthy" x1="0%" y1="0%" x2="100%" y2="100%">
           <stop offset="0%" stopColor="#86efac" stopOpacity="0.8" />
           <stop offset="50%" stopColor="#4ade80" stopOpacity="0.7" />
@@ -98,55 +144,12 @@ export function SystemMapSvg({ zoom, isFlowing, flowSpeed, zones, selectedZone, 
           <circle cx="18" cy="5" r="1" fill="#52525b" opacity="0.4" />
         </pattern>
 
-        {/* HIGH INTENSITY PIPE GRADIENTS */}
-        <linearGradient id="pipe-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
-          <stop offset="0%" stopColor="#1e3a8a" />
-          <stop offset="15%" stopColor="#2563eb" />
-          <stop offset="35%" stopColor="#3b82f6" />
-          <stop offset="50%" stopColor="#60a5fa" />
-          <stop offset="65%" stopColor="#3b82f6" />
-          <stop offset="85%" stopColor="#2563eb" />
-          <stop offset="100%" stopColor="#1e3a8a" />
-        </linearGradient>
-
-        {/* Specular highlight for pipes */}
-        <linearGradient id="pipe-highlight" x1="0%" y1="0%" x2="0%" y2="100%">
-          <stop offset="0%" stopColor="#93c5fd" stopOpacity="0.95" />
-          <stop offset="40%" stopColor="#dbeafe" stopOpacity="0.7" />
-          <stop offset="50%" stopColor="#ffffff" stopOpacity="0.9" />
-          <stop offset="60%" stopColor="#dbeafe" stopOpacity="0.7" />
-          <stop offset="100%" stopColor="#93c5fd" stopOpacity="0.95" />
-        </linearGradient>
-
-        <filter id="pipe-glow" x="-100%" y="-100%" width="300%" height="300%">
-          <feGaussianBlur stdDeviation="6" result="blur" />
-          <feComposite in="SourceGraphic" in2="blur" operator="over" />
-        </filter>
-
-        <filter id="particle-glow" x="-100%" y="-100%" width="300%" height="300%">
-          <feGaussianBlur stdDeviation="4" result="blur" />
-          <feMerge>
-            <feMergeNode in="blur" />
-            <feMergeNode in="SourceGraphic" />
-          </feMerge>
-        </filter>
-
         <filter id="zone-shadow" x="-20%" y="-20%" width="140%" height="140%">
           <feDropShadow dx="0" dy="2" stdDeviation="4" floodOpacity="0.3" />
         </filter>
-
-        <radialGradient id="hub-gradient">
-          <stop offset="0%" stopColor="#bfdbfe" />
-          <stop offset="50%" stopColor="#3b82f6" />
-          <stop offset="100%" stopColor="#1e40af" />
-        </radialGradient>
-
-        <radialGradient id="pulse-gradient">
-          <stop offset="0%" stopColor="#60a5fa" stopOpacity="0.9" />
-          <stop offset="100%" stopColor="#3b82f6" stopOpacity="0" />
-        </radialGradient>
       </defs>
 
+      {/* Grid Pattern Background */}
       <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
         <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#cbd5e1" strokeWidth="0.5" opacity="0.3" />
       </pattern>
@@ -162,30 +165,27 @@ export function SystemMapSvg({ zoom, isFlowing, flowSpeed, zones, selectedZone, 
         className="dark:fill-slate-950 dark:stroke-slate-600"
       />
 
-      {/* PIPE NETWORK LAYER - HIGH VISIBILITY */}
+      {/* PIPE NETWORK LAYER */}
       <g className="pipes" strokeLinecap="round" strokeLinejoin="round">
-        {/* Trunk line paths */}
+        {/* Primary Trunk Line Path */}
         <path id="trunk-pipe" d="M 200,680 L 200,50" stroke="#3b82f6" strokeWidth="24" fill="none" filter="url(#pipe-glow)" opacity="0.25" />
         <path d="M 200,680 L 200,50" stroke="url(#pipe-gradient)" strokeWidth="18" fill="none" />
         <path d="M 200,680 L 200,50" stroke="url(#pipe-highlight)" strokeWidth="8" fill="none" opacity="0.8" />
 
-        {/* Horizontal branch paths */}
+        {/* Primary Horizontal Branch Path */}
         <path id="horizontal-branch" d="M 200,450 L 600,450" stroke="#3b82f6" strokeWidth="22" fill="none" filter="url(#pipe-glow)" opacity="0.25" />
         <path d="M 200,450 L 600,450" stroke="url(#pipe-gradient)" strokeWidth="16" fill="none" />
         <path d="M 200,450 L 600,450" stroke="url(#pipe-highlight)" strokeWidth="7" fill="none" opacity="0.8" />
 
-        {/* Zone sub-branches */}
+        {/* Zone Sub-branches */}
         <path id="branch-z1-main" d="M 200,100 L 100,100" stroke="url(#pipe-gradient)" strokeWidth="12" fill="none" />
         <path id="branch-z4-main" d="M 200,300 L 100,300" stroke="url(#pipe-gradient)" strokeWidth="12" fill="none" />
         <path id="branch-z3-main" d="M 200,550 L 100,550" stroke="url(#pipe-gradient)" strokeWidth="12" fill="none" />
         <path id="branch-z2-main" d="M 400,450 L 400,550" stroke="url(#pipe-gradient)" strokeWidth="12" fill="none" />
 
-        {/* Junction Hubs */}
+        {/* Junction Manifolds */}
         <g transform="translate(200, 450)">
-          <circle r="22" fill="url(#pulse-gradient)" opacity="0.7">
-            <animate attributeName="r" values="18;28;18" dur="2s" repeatCount="indefinite" />
-            <animate attributeName="opacity" values="0.9;0.1;0.9" dur="2s" repeatCount="indefinite" />
-          </circle>
+          <circle r="22" fill="url(#pulse-gradient)" opacity="0.7" className="animate-pulse-glow" />
           <circle r="14" fill="url(#hub-gradient)" stroke="#ffffff" strokeWidth="3.5" />
         </g>
         <circle cx="200" cy="100" r="13" fill="url(#hub-gradient)" stroke="#ffffff" strokeWidth="3" />
@@ -193,7 +193,7 @@ export function SystemMapSvg({ zoom, isFlowing, flowSpeed, zones, selectedZone, 
         <circle cx="200" cy="550" r="13" fill="url(#hub-gradient)" stroke="#ffffff" strokeWidth="3" />
         <circle cx="400" cy="450" r="13" fill="url(#hub-gradient)" stroke="#ffffff" strokeWidth="3" />
 
-        {/* FLOW ANIMATIONS - STRICTLY FOLLOWING PIPE PATHS */}
+        {/* FLOW ANIMATIONS - STRICTLY FOLLOWING ARCHITECTURAL IDS */}
         {isFlowing && (
           <g className="flow-animations" filter="url(#particle-glow)">
             <WaterParticle pathId="trunk-pipe" delay={0} duration={2.5 / flowSpeed} size={6} />
@@ -250,14 +250,17 @@ export function SystemMapSvg({ zoom, isFlowing, flowSpeed, zones, selectedZone, 
                 </g>
               </TooltipTrigger>
               <TooltipContent side="top" className="bg-popover text-popover-foreground p-3 rounded-xl shadow-xl border border-border">
-                <p className="font-bold">{zoneData.name}</p>
-                <p className="text-xs">{zoneData.crop}</p>
+                <div className="space-y-1">
+                  <p className="font-bold">{zoneData.name}</p>
+                  <p className="text-xs">{zoneData.crop}</p>
+                  <Badge variant="outline" className="text-[10px] mt-1">{zoneData.soilMoisture}% Humidity</Badge>
+                </div>
               </TooltipContent>
             </Tooltip>
           );
         })}
 
-        {/* SENSORS LAYER WITH INTERACTIVE TOOLTIPS */}
+        {/* INTERACTIVE SENSOR NODES */}
         <g className="sensors">
           {sensorNodes.map((sensor) => {
             const zoneData = zones.find(z => z.id === sensor.zoneId);
@@ -310,7 +313,7 @@ export function SystemMapSvg({ zoom, isFlowing, flowSpeed, zones, selectedZone, 
         </g>
       </TooltipProvider>
 
-      {/* WATER SOURCE ENTRY POINT */}
+      {/* PRIMARY WATER SOURCE */}
       <g transform="translate(200, 685)">
         <circle r="20" fill="#1e40af" stroke="#60a5fa" strokeWidth="4" className="drop-shadow-xl" />
         <circle r="14" fill="url(#hub-gradient)" />

@@ -1,4 +1,3 @@
-
 export interface MapZone {
   id: string;
   name: string;

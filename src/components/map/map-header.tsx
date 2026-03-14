@@ -1,4 +1,3 @@
-
 "use client"
 
 import { Map as MapIcon, Maximize2, Minimize2, Waves, CheckCircle2, AlertTriangle } from "lucide-react";

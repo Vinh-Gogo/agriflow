@@ -1,0 +1,86 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Clone Website",
+      "type": "shell",
+      "command": "node",
+      "args": [
+        "tools/clone-script.js",
+        "${input:targetUrl}"
+      ],
+      "problemMatcher": [],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      }
+    },
+    {
+      "label": "Clone Pathwise Website",
+      "type": "shell",
+      "command": "node",
+      "args": [
+        "tools/clone-script.js",
+        "https://pathwise.chuongmep.com/"
+      ],
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always"
+      }
+    },
+    {
+      "label": "Take Screenshot",
+      "type": "shell",
+      "command": "node",
+      "args": [
+        "tools/screenshot.js",
+        "${input:targetUrl}"
+      ],
+      "problemMatcher": []
+    },
+    {
+      "label": "Extract CSS",
+      "type": "shell",
+      "command": "node",
+      "args": [
+        "tools/extract-css.js",
+        "${input:targetUrl}"
+      ],
+      "problemMatcher": []
+    },
+    {
+      "label": "Start Live Server",
+      "type": "shell",
+      "command": "npm run dev",
+      "isBackground": true,
+      "problemMatcher": {
+        "pattern": {
+          "regexp": "^$",
+          "file": "",
+          "line": 0,
+          "column": 0,
+          "message": ""
+        },
+        "background": {
+          "activeOnStart": true,
+          "beginsPattern": "Serving",
+          "endsPattern": "Ready"
+        }
+      }
+    },
+    {
+      "label": "Format Code",
+      "type": "shell",
+      "command": "npm run format",
+      "problemMatcher": []
+    }
+  ],
+  "inputs": [
+    {
+      "id": "targetUrl",
+      "type": "promptString",
+      "description": "Enter target website URL",
+      "default": "https://example.com"
+    }
+  ]
+}
