@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { CircleDot, Droplets, Waves, Thermometer, Activity, Signal } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { MapZone, getStatusStyles } from "@/lib/map-data";
+import { Badge } from "@/components/ui/badge";
 
 interface SystemMapSvgProps {
   zoom: number;
