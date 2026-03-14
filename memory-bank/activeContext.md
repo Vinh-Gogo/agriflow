@@ -1,17 +1,16 @@
 # Active Context: HydroSense Hub
 
 ## Current Focus
-- Establishing the baseline application structure with core pages (Dashboard, Zones, Schedules, Analytics, Settings).
-- Integrating Genkit flows for Thirst Index explanations and Weekly Summaries.
-- Fixing initial UI and parsing errors to stabilize the development environment.
+- Enhancing mobile usability with responsive navigation triggers.
+- Maintaining Memory Bank integrity to track project evolution.
+- Ensuring AI flows are robust and provide meaningful insights.
 
 ## Recent Changes
-- Created **Dashboard** with system overview cards and active zone tracking.
-- Implemented **Zone Details** page with Recharts visualization and AI reasoning.
-- Added **Analytics** page featuring AI-generated weekly reports.
-- Integrated **Theme Support** (Light/Dark mode) using `next-themes`.
-- Fixed JSX parsing error in `src/app/page.tsx` related to unescaped `>` characters.
-- Fixed `useChart` runtime error in `ZoneDetailPage` by ensuring correct `ChartContainer` usage.
+- Added a responsive **Mobile Header** in `layout.tsx` featuring a `SidebarTrigger` and branding for better mobile navigation.
+- Initialized the **Cline Memory Bank** structure to ensure context persistence across sessions.
+- Fixed `jsonSchema` parsing error in `weekly-irrigation-summary.ts`.
+- Implemented **Analytics** page with AI-generated weekly reports.
+- Fixed `useChart` runtime error in `ZoneDetailPage`.
 
 ## Next Steps
 - Implement actual Firebase backend integration (currently using mock data).
