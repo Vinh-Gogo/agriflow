@@ -5,11 +5,13 @@ import { AppSidebar } from "@/components/app-sidebar";
 import { Toaster } from "@/components/ui/toaster";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Separator } from "@/components/ui/separator";
-import { Droplets } from "lucide-react";
+import { Droplets, Search, Bell, Settings as SettingsIcon } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 
 export const metadata: Metadata = {
-  title: 'HydroSense Hub | Smart Irrigation Control',
-  description: 'AI-Powered Automated Irrigation System for Gardens and Farms',
+  title: 'AgriFlow | Smart Irrigation Management',
+  description: 'Pro-grade automated irrigation monitoring and control.',
 };
 
 export default function RootLayout({
@@ -24,7 +26,7 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
       </head>
-      <body className="font-body antialiased bg-background text-foreground">
+      <body className="antialiased bg-background text-foreground selection:bg-primary/20">
         <ThemeProvider
           attribute="class"
           defaultTheme="light"
@@ -34,17 +36,33 @@ export default function RootLayout({
           <SidebarProvider defaultOpen={true}>
             <AppSidebar />
             <SidebarInset>
-              {/* Mobile-only Header with Sidebar Trigger */}
-              <header className="flex h-14 shrink-0 items-center gap-2 border-b px-4 lg:hidden sticky top-0 z-10 bg-background/95 backdrop-blur">
-                <SidebarTrigger className="-ml-1" />
-                <Separator orientation="vertical" className="mr-2 h-4" />
+              <header className="header-sticky px-4 md:px-8 justify-between gap-4">
+                <div className="flex items-center gap-4 flex-1">
+                  <SidebarTrigger className="lg:hidden" />
+                  <div className="hidden lg:flex items-center gap-2 mr-4">
+                    <Droplets className="size-6 text-primary" />
+                    <span className="font-bold text-xl tracking-tighter">AgriFlow</span>
+                  </div>
+                  <div className="relative max-w-md w-full hidden md:block">
+                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-muted-foreground" />
+                    <Input 
+                      placeholder="Search system logs, zones..." 
+                      className="pl-10 h-10 bg-muted/50 border-border focus-visible:ring-primary"
+                    />
+                  </div>
+                </div>
                 <div className="flex items-center gap-2">
-                  <Droplets className="size-4 text-primary" />
-                  <span className="font-semibold text-sm tracking-tight">HydroSense Hub</span>
+                  <Button variant="ghost" size="icon" className="text-muted-foreground hover:text-primary">
+                    <Bell className="size-5" />
+                  </Button>
+                  <Button variant="ghost" size="icon" className="text-muted-foreground hover:text-primary">
+                    <SettingsIcon className="size-5" />
+                  </Button>
+                  <Button className="ml-2 hidden sm:flex">Run Diagnostic</Button>
                 </div>
               </header>
-              <main className="flex-1 overflow-y-auto">
-                <div className="container mx-auto max-w-7xl p-6 lg:p-8">
+              <main className="flex-1">
+                <div className="container mx-auto max-w-6xl p-4 md:p-8">
                   {children}
                 </div>
               </main>

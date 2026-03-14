@@ -1,67 +1,56 @@
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
   :root {
-    /* AgriFlow inspired Palette */
-    --background: 47 100% 97%; /* #FFFBF0 */
-    --foreground: 180 50% 10%;
+    /* DEV.to inspired Palette */
+    --background: 210 40% 98%;
+    --foreground: 222 47% 11%;
     --card: 0 0% 100%;
-    --card-foreground: 180 50% 10%;
+    --card-foreground: 222 47% 11%;
     --popover: 0 0% 100%;
-    --popover-foreground: 180 50% 10%;
-    --primary: 180 78% 24%; /* #0D6B6B */
-    --primary-foreground: 0 0% 100%;
-    --secondary: 180 30% 90%;
-    --secondary-foreground: 180 78% 24%;
-    --muted: 180 10% 90%;
-    --muted-foreground: 180 20% 40%;
-    --accent: 180 70% 60%; /* #52E0C8 */
-    --accent-foreground: 180 80% 20%;
+    --popover-foreground: 222 47% 11%;
+    --primary: 221 83% 53%; /* Professional Blue */
+    --primary-foreground: 210 40% 98%;
+    --secondary: 210 40% 96%;
+    --secondary-foreground: 222 47% 11%;
+    --muted: 210 40% 96%;
+    --muted-foreground: 215 16% 47%;
+    --accent: 221 83% 53%;
+    --accent-foreground: 210 40% 98%;
     --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 180 20% 85%;
-    --input: 180 20% 85%;
-    --ring: 180 78% 24%;
-    --radius: 1rem;
-    --chart-1: 180 78% 24%;
-    --chart-2: 180 70% 60%;
-    --chart-3: 197 37% 24%;
-    --chart-4: 43 74% 66%;
-    --chart-5: 27 87% 67%;
-    --sidebar-background: 0 0% 100%;
-    --sidebar-foreground: 180 50% 10%;
-    --sidebar-primary: 180 78% 24%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 180 20% 95%;
-    --sidebar-accent-foreground: 180 78% 24%;
-    --sidebar-border: 180 20% 90%;
-    --sidebar-ring: 180 78% 24%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 214 32% 91%;
+    --input: 214 32% 91%;
+    --ring: 221 83% 53%;
+    --radius: 0.5rem;
+    --chart-1: 221 83% 53%;
+    --chart-2: 212 95% 68%;
+    --chart-3: 216 92% 60%;
+    --chart-4: 210 40% 96%;
+    --chart-5: 215 16% 47%;
   }
   .dark {
-    --background: 180 50% 5%;
-    --foreground: 47 100% 97%;
-    --card: 180 50% 10%;
-    --card-foreground: 47 100% 97%;
-    --popover: 180 50% 10%;
-    --popover-foreground: 47 100% 97%;
-    --primary: 180 78% 40%;
-    --primary-foreground: 47 100% 97%;
-    --secondary: 180 30% 20%;
-    --secondary-foreground: 180 70% 80%;
-    --muted: 180 30% 20%;
-    --muted-foreground: 180 20% 70%;
-    --accent: 180 70% 60%;
-    --accent-foreground: 180 80% 20%;
+    --background: 222 47% 11%;
+    --foreground: 210 40% 98%;
+    --card: 222 47% 11%;
+    --card-foreground: 210 40% 98%;
+    --popover: 222 47% 11%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 217 91% 60%;
+    --primary-foreground: 222 47% 11%;
+    --secondary: 217 19% 27%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 217 19% 27%;
+    --muted-foreground: 215 20.2% 65.1%;
+    --accent: 217 19% 27%;
+    --accent-foreground: 210 40% 98%;
     --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 180 30% 20%;
-    --input: 180 30% 20%;
-    --ring: 180 78% 40%;
-    --chart-1: 180 78% 40%;
-    --chart-2: 180 70% 60%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 217 19% 27%;
+    --input: 217 19% 27%;
+    --ring: 224 76.3% 48%;
   }
 }
 
@@ -70,6 +59,31 @@
     @apply border-border;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-sans;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-bold tracking-tight;
+  }
+}
+
+@layer components {
+  .article-card {
+    @apply bg-card text-card-foreground rounded-lg border border-border p-6 hover:shadow-md transition-shadow duration-200;
+  }
+
+  .sidebar-link {
+    @apply flex items-center gap-3 px-4 py-2 rounded-md text-sm font-medium text-muted-foreground hover:text-primary hover:bg-primary/10 transition-colors duration-200;
+  }
+
+  .sidebar-link.active {
+    @apply text-primary bg-primary/10 font-semibold;
+  }
+
+  .header-sticky {
+    @apply sticky top-0 z-40 bg-background/95 backdrop-blur-md border-b border-border h-14 flex items-center;
+  }
+
+  .tag-badge {
+    @apply inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-muted text-muted-foreground hover:bg-secondary transition-colors;
   }
 }

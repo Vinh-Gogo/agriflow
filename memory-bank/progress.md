@@ -2,14 +2,14 @@
 
 ## What Works
 - [x] Responsive Sidebar navigation with Mobile Trigger support.
-- [x] Main Dashboard with real-time stats (mocked).
-- [x] Watering Zones list view.
-- [x] Zone Detail view with sensor charts.
-- [x] AI Thirst Index explanation flow.
-- [x] AI Weekly Irrigation Summary flow (fixed Handlebars parsing).
+- [x] Main Dashboard with real-time stats and "feed-style" layout.
+- [x] Watering Zones list view and individual detail routes.
+- [x] Zone Detail view with sensor charts and AI-driven "Thirst Index" reasoning.
+- [x] AI Weekly Irrigation Summary flow.
 - [x] System Analytics page.
-- [x] Dark Mode toggle in Settings.
-- [x] Memory Bank initialization.
+- [x] Dark Mode toggle in Settings via `next-themes`.
+- [x] Memory Bank initialization and maintenance.
+- [x] Accessibility compliant UI components (Dialogs/Sheets).
 
 ## Left to Build
 - [ ] Real-time Firebase Firestore integration.
@@ -20,4 +20,4 @@
 
 ## Known Issues
 - `src/lib/mock-data.ts` is currently the source of truth; needs transition to persistent DB.
-- Recharts may require careful hydration handling in some environments.
+- Recharts may require careful hydration handling in some server-rendered environments.
