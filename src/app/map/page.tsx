@@ -239,12 +239,17 @@ export default function SystemMapPage() {
                   <circle cx="18" cy="5" r="1" fill="#52525b" opacity="0.4" />
                 </pattern>
 
-                {/* Pipe gradient */}
+                {/* PROMINENT BLUE PIPE GRADIENT */}
                 <linearGradient id="pipe-gradient" x1="0%" y1="0%" x2="0%" y2="100%">
-                  <stop offset="0%" stopColor="#0284c7" />
-                  <stop offset="50%" stopColor="#0ea5e9" />
-                  <stop offset="100%" stopColor="#38bdf8" />
+                  <stop offset="0%" stopColor="#2563eb" />
+                  <stop offset="50%" stopColor="#3b82f6" />
+                  <stop offset="100%" stopColor="#60a5fa" />
                 </linearGradient>
+
+                <filter id="pipe-glow">
+                  <feGaussianBlur stdDeviation="2" result="blur" />
+                  <feComposite in="SourceGraphic" in2="blur" operator="over" />
+                </filter>
               </defs>
 
               {/* Plot Boundary - Contiguous land shape */}
@@ -256,16 +261,16 @@ export default function SystemMapPage() {
                 className="dark:fill-slate-950 dark:stroke-slate-700"
               />
 
-              {/* SEAMLESS PIPE NETWORK */}
-              <g className="pipes" strokeLinecap="round" strokeLinejoin="round">
+              {/* SEAMLESS PIPE NETWORK - HIGHLIGHTED XANH DƯƠNG */}
+              <g className="pipes" strokeLinecap="round" strokeLinejoin="round" filter="url(#pipe-glow)">
                 {/* Main Trunk Pipeline */}
                 <path 
                   id="trunk-pipe"
                   d="M 200,650 L 200,50" 
                   stroke="url(#pipe-gradient)" 
-                  strokeWidth="12" 
+                  strokeWidth="14" 
                   fill="none"
-                  className="drop-shadow-lg"
+                  className="drop-shadow-xl"
                 />
                 
                 {/* Main Horizontal Branch */}
@@ -273,71 +278,71 @@ export default function SystemMapPage() {
                   id="horizontal-branch"
                   d="M 200,450 L 600,450" 
                   stroke="url(#pipe-gradient)" 
-                  strokeWidth="10" 
+                  strokeWidth="12" 
                   fill="none"
-                  className="drop-shadow-lg"
+                  className="drop-shadow-xl"
                 />
 
                 {/* Zone 1 & 4 Branching paths */}
-                <path id="branch-z1-top" d="M 200,100 L 100,100" stroke="#0ea5e9" strokeWidth="6" fill="none" className="opacity-80" />
-                <path id="branch-z1-mid" d="M 200,200 L 100,200" stroke="#0ea5e9" strokeWidth="6" fill="none" className="opacity-80" />
-                <path id="branch-z4-main" d="M 200,350 L 100,350" stroke="#0ea5e9" strokeWidth="6" fill="none" className="opacity-80" />
+                <path id="branch-z1-top" d="M 200,100 L 100,100" stroke="#3b82f6" strokeWidth="8" fill="none" />
+                <path id="branch-z1-mid" d="M 200,200 L 100,200" stroke="#3b82f6" strokeWidth="8" fill="none" />
+                <path id="branch-z4-main" d="M 200,350 L 100,350" stroke="#3b82f6" strokeWidth="8" fill="none" />
                 
                 {/* Zone 3 connectivity */}
-                <path id="branch-z3-top" d="M 200,550 L 100,550" stroke="#0ea5e9" strokeWidth="6" fill="none" className="opacity-80" />
-                <path id="branch-z3-bot" d="M 200,600 L 100,600" stroke="#0ea5e9" strokeWidth="6" fill="none" className="opacity-80" />
+                <path id="branch-z3-top" d="M 200,550 L 100,550" stroke="#3b82f6" strokeWidth="8" fill="none" />
+                <path id="branch-z3-bot" d="M 200,600 L 100,600" stroke="#3b82f6" strokeWidth="8" fill="none" />
 
                 {/* Zone 2 Connectivity */}
-                <path id="branch-z2-v1" d="M 400,450 L 400,650" stroke="#0ea5e9" strokeWidth="6" fill="none" className="opacity-80" />
-                <path id="branch-z2-v2" d="M 500,450 L 500,650" stroke="#0ea5e9" strokeWidth="6" fill="none" className="opacity-80" />
+                <path id="branch-z2-v1" d="M 400,450 L 400,650" stroke="#3b82f6" strokeWidth="8" fill="none" />
+                <path id="branch-z2-v2" d="M 500,450 L 500,650" stroke="#3b82f6" strokeWidth="8" fill="none" />
 
-                {/* Junction Hubs */}
-                <circle cx="200" cy="450" r="8" fill="#0284c7" stroke="white" strokeWidth="2" className="drop-shadow-md" />
-                <circle cx="200" cy="100" r="6" fill="#0284c7" stroke="white" strokeWidth="2" className="drop-shadow-md" />
-                <circle cx="200" cy="200" r="6" fill="#0284c7" stroke="white" strokeWidth="2" className="drop-shadow-md" />
-                <circle cx="200" cy="350" r="6" fill="#0284c7" stroke="white" strokeWidth="2" className="drop-shadow-md" />
-                <circle cx="200" cy="550" r="6" fill="#0284c7" stroke="white" strokeWidth="2" className="drop-shadow-md" />
-                <circle cx="400" cy="450" r="6" fill="#0284c7" stroke="white" strokeWidth="2" className="drop-shadow-md" />
-                <circle cx="500" cy="450" r="6" fill="#0284c7" stroke="white" strokeWidth="2" className="drop-shadow-md" />
+                {/* Junction Hubs - Vibrant Blue */}
+                <circle cx="200" cy="450" r="10" fill="#1d4ed8" stroke="white" strokeWidth="2.5" className="drop-shadow-md" />
+                <circle cx="200" cy="100" r="8" fill="#1d4ed8" stroke="white" strokeWidth="2" className="drop-shadow-md" />
+                <circle cx="200" cy="200" r="8" fill="#1d4ed8" stroke="white" strokeWidth="2" className="drop-shadow-md" />
+                <circle cx="200" cy="350" r="8" fill="#1d4ed8" stroke="white" strokeWidth="2" className="drop-shadow-md" />
+                <circle cx="200" cy="550" r="8" fill="#1d4ed8" stroke="white" strokeWidth="2" className="drop-shadow-md" />
+                <circle cx="400" cy="450" r="8" fill="#1d4ed8" stroke="white" strokeWidth="2" className="drop-shadow-md" />
+                <circle cx="500" cy="450" r="8" fill="#1d4ed8" stroke="white" strokeWidth="2" className="drop-shadow-md" />
 
-                {/* FLOW ANIMATIONS - STRICTLY FOLLOWING PIPES */}
+                {/* FLOW ANIMATIONS - Bright White/Light Blue for contrast */}
                 {/* Flow on Trunk */}
-                <circle r="4" fill="#7dd3fc" filter="drop-shadow(0 0 4px #38bdf8)">
-                  <animateMotion dur="4s" repeatCount="indefinite">
+                <circle r="5" fill="#eff6ff" filter="drop-shadow(0 0 6px #60a5fa)">
+                  <animateMotion dur="3s" repeatCount="indefinite">
                     <mpath href="#trunk-pipe" />
                   </animateMotion>
                 </circle>
-                <circle r="3" fill="#ffffff" opacity="0.6">
-                  <animateMotion dur="4s" begin="2s" repeatCount="indefinite">
+                <circle r="4" fill="#ffffff" opacity="0.7">
+                  <animateMotion dur="3s" begin="1.5s" repeatCount="indefinite">
                     <mpath href="#trunk-pipe" />
                   </animateMotion>
                 </circle>
 
                 {/* Flow on Horizontal Branch */}
-                <circle r="3" fill="#7dd3fc">
-                  <animateMotion dur="2.5s" repeatCount="indefinite">
+                <circle r="4" fill="#eff6ff">
+                  <animateMotion dur="2s" repeatCount="indefinite">
                     <mpath href="#horizontal-branch" />
                   </animateMotion>
                 </circle>
 
                 {/* Flow on Sub-branches */}
-                <circle r="2.5" fill="#7dd3fc">
-                  <animateMotion dur="1.5s" repeatCount="indefinite">
+                <circle r="3.5" fill="#eff6ff">
+                  <animateMotion dur="1.2s" repeatCount="indefinite">
                     <mpath href="#branch-z1-top" />
                   </animateMotion>
                 </circle>
-                <circle r="2.5" fill="#7dd3fc">
-                  <animateMotion dur="1.8s" repeatCount="indefinite">
+                <circle r="3.5" fill="#eff6ff">
+                  <animateMotion dur="1.4s" repeatCount="indefinite">
                     <mpath href="#branch-z4-main" />
                   </animateMotion>
                 </circle>
-                <circle r="2.5" fill="#7dd3fc">
-                  <animateMotion dur="2s" repeatCount="indefinite">
+                <circle r="3.5" fill="#eff6ff">
+                  <animateMotion dur="1.6s" repeatCount="indefinite">
                     <mpath href="#branch-z2-v1" />
                   </animateMotion>
                 </circle>
-                <circle r="2.5" fill="#7dd3fc">
-                  <animateMotion dur="2.2s" repeatCount="indefinite">
+                <circle r="3.5" fill="#eff6ff">
+                  <animateMotion dur="1.8s" repeatCount="indefinite">
                     <mpath href="#branch-z3-bot" />
                   </animateMotion>
                 </circle>
@@ -495,12 +500,12 @@ export default function SystemMapPage() {
               {/* Sensors Overlay */}
               <g className="sensors">
                 <g transform="translate(200, 150)">
-                  <circle r="10" fill="white" stroke="#0ea5e9" strokeWidth="3" className="drop-shadow-lg" />
-                  <text y="3" x="0" className="text-[9px] font-bold fill-sky-600" textAnchor="middle">S1</text>
+                  <circle r="10" fill="white" stroke="#2563eb" strokeWidth="3" className="drop-shadow-lg" />
+                  <text y="3" x="0" className="text-[9px] font-bold fill-blue-600" textAnchor="middle">S1</text>
                 </g>
                 <g transform="translate(475, 500)">
-                  <circle r="10" fill="white" stroke="#0ea5e9" strokeWidth="3" className="drop-shadow-lg" />
-                  <text y="3" x="0" className="text-[9px] font-bold fill-sky-600" textAnchor="middle">S2</text>
+                  <circle r="10" fill="white" stroke="#2563eb" strokeWidth="3" className="drop-shadow-lg" />
+                  <text y="3" x="0" className="text-[9px] font-bold fill-blue-600" textAnchor="middle">S2</text>
                 </g>
               </g>
 
@@ -549,11 +554,11 @@ export default function SystemMapPage() {
                     
                     <div className="pt-3 border-t border-border space-y-2">
                       <div className="flex items-center gap-2 text-[10px] text-muted-foreground">
-                        <div className="w-8 h-2 bg-gradient-to-r from-sky-600 to-sky-400 rounded-full" />
-                        <span>Mạch nước ngầm</span>
+                        <div className="w-8 h-2 bg-gradient-to-r from-blue-700 to-blue-400 rounded-full" />
+                        <span>Mạch nước chính (Xanh Dương)</span>
                       </div>
                       <div className="flex items-center gap-2 text-[10px] text-muted-foreground">
-                        <div className="w-3 h-3 rounded-full bg-white border-2 border-sky-500" />
+                        <div className="w-3 h-3 rounded-full bg-white border-2 border-blue-600" />
                         <span>Trạm cảm biến</span>
                       </div>
                     </div>
@@ -567,8 +572,8 @@ export default function SystemMapPage() {
               <div className="bg-card/95 backdrop-blur-xl p-4 rounded-2xl border border-border shadow-xl">
                 <div className="flex items-center gap-3">
                   <div className="relative">
-                    <Waves className="size-5 text-primary" />
-                    <span className="absolute -top-1 -right-1 w-2 h-2 bg-primary rounded-full animate-pulse" />
+                    <Waves className="size-5 text-blue-600" />
+                    <span className="absolute -top-1 -right-1 w-2 h-2 bg-blue-500 rounded-full animate-pulse" />
                   </div>
                   <div>
                     <p className="text-[10px] font-bold text-muted-foreground uppercase">Áp suất</p>
@@ -681,7 +686,7 @@ export default function SystemMapPage() {
           </AnimatePresence>
 
           {/* Network Health */}
-          <Card className="border-none shadow-xl bg-gradient-to-br from-primary to-blue-700 text-primary-foreground rounded-3xl overflow-hidden border border-border">
+          <Card className="border-none shadow-xl bg-gradient-to-br from-blue-600 to-blue-800 text-primary-foreground rounded-3xl overflow-hidden border border-border">
             <CardHeader className="pb-2">
               <CardTitle className="text-sm font-bold flex items-center gap-2">
                 <Waves className="size-4" /> Hệ Thống Thủy Lực
