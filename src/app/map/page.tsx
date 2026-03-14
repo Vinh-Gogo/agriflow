@@ -1,3 +1,4 @@
+
 "use client"
 
 import { useState } from "react";
@@ -8,7 +9,6 @@ import {
   Thermometer, 
   Waves, 
   Zap, 
-  Info,
   Maximize2, 
   Minimize2,
   Pipette,
@@ -176,7 +176,8 @@ export default function SystemMapPage() {
     id: 'zone-5',
     name: 'Kho Bãi & Vùng Đệm',
     description: 'Khu vực chưa lắp đặt hệ thống tưới tự động',
-    points: "650,50 780,80 790,200 750,320 620,280 580,150",
+    // Positioned to ensure no overlap
+    points: "650,50 750,60 830,80 840,180 800,260 720,270 650,240 620,150",
     type: 'storage'
   };
 
@@ -321,7 +322,7 @@ export default function SystemMapPage() {
                 </circle>
               </g>
 
-              {/* Zone 1: Organic Vegetable Garden Shape */}
+              {/* Zone 1: Organic Vegetable Garden Shape (Top Left) */}
               <TooltipProvider>
                 <Tooltip>
                   <TooltipTrigger asChild>
@@ -333,17 +334,17 @@ export default function SystemMapPage() {
                       style={{ filter: hoveredZone === mockZones[0].id ? getStatusStyles(mockZones[0].thirstLevel, mockZones[0].status).glow : 'none' }}
                     >
                       <path 
-                        d={generateOrganicPath("80,80 120,60 200,70 280,90 320,120 310,180 280,220 200,240 120,230 60,200 50,140 60,100")}
+                        d={generateOrganicPath("60,60 150,50 240,60 280,100 280,180 240,220 150,230 60,220 40,140")}
                         className={`transition-all duration-300 ${hoveredZone === mockZones[0].id ? 'opacity-100' : 'opacity-90'}`}
                         fill={getStatusStyles(mockZones[0].thirstLevel, mockZones[0].status).fill}
                         stroke={getStatusStyles(mockZones[0].thirstLevel, mockZones[0].status).stroke}
                         strokeWidth={hoveredZone === mockZones[0].id ? 3 : 2}
                       />
                       <g className="pointer-events-none">
-                        <circle cx="150" cy="130" r="3" fill="currentColor" className="text-emerald-700 opacity-60" />
-                        <circle cx="200" cy="150" r="4" fill="currentColor" className="text-emerald-700 opacity-50" />
+                        <circle cx="120" cy="120" r="3" fill="currentColor" className="text-emerald-700 opacity-60" />
+                        <circle cx="180" cy="140" r="4" fill="currentColor" className="text-emerald-700 opacity-50" />
                       </g>
-                      <text x="180" y="160" className="text-[10px] font-bold fill-slate-700 dark:fill-slate-200 pointer-events-none" textAnchor="middle">
+                      <text x="150" y="150" className="text-[10px] font-bold fill-slate-700 dark:fill-slate-200 pointer-events-none" textAnchor="middle">
                         {mockZones[0].name}
                       </text>
                     </g>
@@ -357,66 +358,7 @@ export default function SystemMapPage() {
                 </Tooltip>
               </TooltipProvider>
 
-              {/* Zone 2: Orchard */}
-              <TooltipProvider>
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <g 
-                      className="cursor-pointer transition-all duration-500"
-                      onClick={() => setSelectedZone(mockZones[1].id)}
-                      onMouseEnter={() => setHoveredZone(mockZones[1].id)}
-                      onMouseLeave={() => setHoveredZone(null)}
-                      style={{ filter: hoveredZone === mockZones[1].id ? getStatusStyles(mockZones[1].thirstLevel, mockZones[1].status).glow : 'none' }}
-                    >
-                      <path 
-                        d={generateOrganicPath("500,350 580,320 680,340 750,400 780,480 750,560 680,600 600,610 520,580 480,520 470,440 480,380")}
-                        className={`transition-all duration-300 ${hoveredZone === mockZones[1].id ? 'opacity-100' : 'opacity-85'}`}
-                        fill={getStatusStyles(mockZones[1].thirstLevel, mockZones[1].status).fill}
-                        stroke={getStatusStyles(mockZones[1].thirstLevel, mockZones[1].status).stroke}
-                        strokeWidth={hoveredZone === mockZones[1].id ? 3 : 2}
-                      />
-                      <text x="630" y="480" className="text-[10px] font-bold fill-slate-700 dark:fill-slate-200 pointer-events-none" textAnchor="middle">
-                        {mockZones[1].name}
-                      </text>
-                    </g>
-                  </TooltipTrigger>
-                  <TooltipContent side="top" className="bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl border-red-200 dark:border-red-900 p-3 rounded-xl shadow-xl">
-                    <p className="font-bold text-red-600">{mockZones[1].name}</p>
-                    <p className="text-xs text-slate-500">Cần tưới gấp!</p>
-                  </TooltipContent>
-                </Tooltip>
-              </TooltipProvider>
-
-              {/* Zone 3: Flower Garden */}
-              <TooltipProvider>
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <g 
-                      className="cursor-pointer transition-all duration-500"
-                      onClick={() => setSelectedZone(mockZones[2].id)}
-                      onMouseEnter={() => setHoveredZone(mockZones[2].id)}
-                      onMouseLeave={() => setHoveredZone(null)}
-                      style={{ filter: hoveredZone === mockZones[2].id ? getStatusStyles(mockZones[2].thirstLevel, mockZones[2].status).glow : 'none' }}
-                    >
-                      <path 
-                        d={generateOrganicPath("80,320 140,280 220,290 280,340 290,420 250,480 180,500 110,480 70,420 60,360")}
-                        className={`transition-all duration-300 ${hoveredZone === mockZones[2].id ? 'opacity-100' : 'opacity-85'}`}
-                        fill={getStatusStyles(mockZones[2].thirstLevel, mockZones[2].status).fill}
-                        stroke={getStatusStyles(mockZones[2].thirstLevel, mockZones[2].status).stroke}
-                        strokeWidth={hoveredZone === mockZones[2].id ? 3 : 2}
-                      />
-                      <text x="175" y="390" className="text-[10px] font-bold fill-slate-700 dark:fill-slate-200 pointer-events-none" textAnchor="middle">
-                        {mockZones[2].name}
-                      </text>
-                    </g>
-                  </TooltipTrigger>
-                  <TooltipContent side="top" className="bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl border-orange-200 dark:border-orange-900 p-3 rounded-xl shadow-xl">
-                    <p className="font-bold text-orange-600">{mockZones[2].name}</p>
-                  </TooltipContent>
-                </Tooltip>
-              </TooltipProvider>
-
-              {/* Zone 4: Lawn */}
+              {/* Zone 4: Lawn (Top Center-ish) */}
               <TooltipProvider>
                 <Tooltip>
                   <TooltipTrigger asChild>
@@ -428,13 +370,13 @@ export default function SystemMapPage() {
                       style={{ filter: hoveredZone === mockZones[3].id ? getStatusStyles(mockZones[3].thirstLevel, mockZones[3].status).glow : 'none' }}
                     >
                       <path 
-                        d={generateOrganicPath("350,80 450,60 550,80 620,120 640,180 620,240 560,270 480,280 400,270 340,240 320,180 330,120")}
+                        d={generateOrganicPath("350,60 450,50 550,60 580,100 580,200 550,240 450,250 350,240 320,150")}
                         className={`transition-all duration-300 ${hoveredZone === mockZones[3].id ? 'opacity-100' : 'opacity-90'}`}
                         fill={getStatusStyles(mockZones[3].thirstLevel, mockZones[3].status).fill}
                         stroke={getStatusStyles(mockZones[3].thirstLevel, mockZones[3].status).stroke}
                         strokeWidth={hoveredZone === mockZones[3].id ? 3 : 2}
                       />
-                      <text x="480" y="180" className="text-[10px] font-bold fill-slate-700 dark:fill-slate-200 pointer-events-none" textAnchor="middle">
+                      <text x="450" y="150" className="text-[10px] font-bold fill-slate-700 dark:fill-slate-200 pointer-events-none" textAnchor="middle">
                         {mockZones[3].name}
                       </text>
                     </g>
@@ -445,7 +387,7 @@ export default function SystemMapPage() {
                 </Tooltip>
               </TooltipProvider>
 
-              {/* Zone 5: Unequipped Storage Area */}
+              {/* Zone 5: Unequipped Storage Area (Top Right) */}
               <TooltipProvider>
                 <Tooltip>
                   <TooltipTrigger asChild>
@@ -461,7 +403,10 @@ export default function SystemMapPage() {
                         strokeWidth={hoveredZone === unequippedArea.id ? 3 : 2}
                         className="opacity-90"
                       />
-                      <text x="685" y="210" className="text-[10px] font-bold fill-slate-500 pointer-events-none" textAnchor="middle">
+                      <g className="pointer-events-none opacity-50">
+                        <Tractor x="680" y="150" size={32} className="text-slate-600" />
+                      </g>
+                      <text x="730" y="210" className="text-[10px] font-bold fill-slate-500 pointer-events-none" textAnchor="middle">
                         {unequippedArea.name}
                       </text>
                     </g>
@@ -472,14 +417,73 @@ export default function SystemMapPage() {
                 </Tooltip>
               </TooltipProvider>
 
+              {/* Zone 3: Flower Garden (Bottom Left) */}
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <g 
+                      className="cursor-pointer transition-all duration-500"
+                      onClick={() => setSelectedZone(mockZones[2].id)}
+                      onMouseEnter={() => setHoveredZone(mockZones[2].id)}
+                      onMouseLeave={() => setHoveredZone(null)}
+                      style={{ filter: hoveredZone === mockZones[2].id ? getStatusStyles(mockZones[2].thirstLevel, mockZones[2].status).glow : 'none' }}
+                    >
+                      <path 
+                        d={generateOrganicPath("60,320 160,310 260,320 320,360 320,480 260,530 160,540 60,530 40,420")}
+                        className={`transition-all duration-300 ${hoveredZone === mockZones[2].id ? 'opacity-100' : 'opacity-85'}`}
+                        fill={getStatusStyles(mockZones[2].thirstLevel, mockZones[2].status).fill}
+                        stroke={getStatusStyles(mockZones[2].thirstLevel, mockZones[2].status).stroke}
+                        strokeWidth={hoveredZone === mockZones[2].id ? 3 : 2}
+                      />
+                      <text x="180" y="420" className="text-[10px] font-bold fill-slate-700 dark:fill-slate-200 pointer-events-none" textAnchor="middle">
+                        {mockZones[2].name}
+                      </text>
+                    </g>
+                  </TooltipTrigger>
+                  <TooltipContent side="top" className="bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl border-orange-200 dark:border-orange-900 p-3 rounded-xl shadow-xl">
+                    <p className="font-bold text-orange-600">{mockZones[2].name}</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+
+              {/* Zone 2: Orchard (Bottom Right) */}
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <g 
+                      className="cursor-pointer transition-all duration-500"
+                      onClick={() => setSelectedZone(mockZones[1].id)}
+                      onMouseEnter={() => setHoveredZone(mockZones[1].id)}
+                      onMouseLeave={() => setHoveredZone(null)}
+                      style={{ filter: hoveredZone === mockZones[1].id ? getStatusStyles(mockZones[1].thirstLevel, mockZones[1].status).glow : 'none' }}
+                    >
+                      <path 
+                        d={generateOrganicPath("420,320 550,310 700,320 780,380 780,550 700,610 550,620 420,610 380,450")}
+                        className={`transition-all duration-300 ${hoveredZone === mockZones[1].id ? 'opacity-100' : 'opacity-85'}`}
+                        fill={getStatusStyles(mockZones[1].thirstLevel, mockZones[1].status).fill}
+                        stroke={getStatusStyles(mockZones[1].thirstLevel, mockZones[1].status).stroke}
+                        strokeWidth={hoveredZone === mockZones[1].id ? 3 : 2}
+                      />
+                      <text x="600" y="480" className="text-[10px] font-bold fill-slate-700 dark:fill-slate-200 pointer-events-none" textAnchor="middle">
+                        {mockZones[1].name}
+                      </text>
+                    </g>
+                  </TooltipTrigger>
+                  <TooltipContent side="top" className="bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl border-red-200 dark:border-red-900 p-3 rounded-xl shadow-xl">
+                    <p className="font-bold text-red-600">{mockZones[1].name}</p>
+                    <p className="text-xs text-slate-500">Cần tưới gấp!</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+
               {/* Sensors Layer */}
               <g className="sensors">
-                <g transform="translate(180, 150)">
+                <g transform="translate(150, 150)">
                   <circle r="6" fill="white" stroke="#0ea5e9" strokeWidth="2" className="drop-shadow-sm" />
                   <text y="2" x="0" className="text-[6px] font-bold fill-sky-600 text-center" textAnchor="middle">S1</text>
                   <circle r="10" fill="none" stroke="#0ea5e9" strokeWidth="1" className="animate-ping opacity-30" />
                 </g>
-                <g transform="translate(630, 480)">
+                <g transform="translate(600, 480)">
                   <circle r="6" fill="white" stroke="#0ea5e9" strokeWidth="2" className="drop-shadow-sm" />
                   <text y="2" x="0" className="text-[6px] font-bold fill-sky-600 text-center" textAnchor="middle">S2</text>
                   <circle r="10" fill="none" stroke="#ef4444" strokeWidth="1" className="animate-ping opacity-50" />
