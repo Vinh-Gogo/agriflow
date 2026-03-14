@@ -168,8 +168,10 @@ export default function Dashboard() {
               Based on last week's performance, switching Zone 1 to Drip Hybrid mode could save 15% more water during high-temp peaks.
             </p>
           </div>
-          <Button className="bg-primary hover:bg-primary/90">
-            View Analysis <ArrowUpRight className="ml-2 size-4" />
+          <Button className="bg-primary hover:bg-primary/90" asChild>
+            <Link href="/analytics">
+              View Analysis <ArrowUpRight className="ml-2 size-4" />
+            </Link>
           </Button>
         </CardContent>
       </Card>

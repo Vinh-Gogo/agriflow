@@ -6,7 +6,7 @@ import { mockZones } from "@/lib/mock-data";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Droplets, Thermometer, Wind, Gauge, ArrowLeft, Play, Square, Sparkles, Activity, History } from "lucide-react";
+import { Droplets, Thermometer, Gauge, ArrowLeft, Play, Square, Sparkles, Activity, History } from "lucide-react";
 import Link from "next/link";
 import { ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
 import { Line, LineChart, XAxis, YAxis, CartesianGrid } from "recharts";
