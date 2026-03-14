@@ -18,7 +18,9 @@ import {
   Tractor,
   AlertTriangle,
   CheckCircle2,
-  Timer
+  Timer,
+  ChevronDown,
+  ChevronUp
 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -170,10 +172,8 @@ export default function SystemMapPage() {
   const [zoom, setZoom] = useState(1);
   const [selectedZone, setSelectedZone] = useState<string | null>(null);
   const [hoveredZone, setHoveredZone] = useState<string | null>(null);
+  const [isLegendCollapsed, setIsLegendCollapsed] = useState(false);
 
-  // Plot Boundary Points for an 'L' shaped property
-  // (50,50) -> (350,50) -> (350,350) -> (850,350) -> (850,650) -> (50,650) -> (50,50)
-  
   // Unequipped area - Storage/Buffer zone (Far right part of the base)
   const unequippedArea = {
     id: 'zone-5',
@@ -459,15 +459,35 @@ export default function SystemMapPage() {
 
             {/* Legend */}
             <div className="absolute bottom-6 left-6 p-5 bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl rounded-2xl border border-slate-200 dark:border-slate-700 shadow-2xl space-y-3 min-w-[200px]">
-              <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-slate-500 mb-3">
-                <Pipette className="size-4" /> Chú Thích Bản Đồ
+              <div className="flex items-center justify-between gap-2 text-xs font-bold uppercase tracking-wider text-slate-500 mb-3">
+                <div className="flex items-center gap-2">
+                  <Pipette className="size-4" /> Chú Thích Bản Đồ
+                </div>
+                <Button 
+                  variant="ghost" 
+                  size="icon" 
+                  className="size-6 h-6 w-6" 
+                  onClick={() => setIsLegendCollapsed(!isLegendCollapsed)}
+                >
+                  {isLegendCollapsed ? <ChevronUp className="size-3" /> : <ChevronDown className="size-3" />}
+                </Button>
               </div>
-              <div className="space-y-2.5">
-                <div className="flex items-center gap-3"><div className="size-4 rounded-lg bg-emerald-500" /><span className="text-sm">Đủ nước</span></div>
-                <div className="flex items-center gap-3"><div className="size-4 rounded-lg bg-orange-500" /><span className="text-sm">Đang tưới</span></div>
-                <div className="flex items-center gap-3"><div className="size-4 rounded-lg bg-red-500" /><span className="text-sm">Khẩn cấp</span></div>
-                <div className="flex items-center gap-3"><div className="size-4 rounded-lg bg-zinc-700" /><span className="text-sm">Chưa lắp đặt</span></div>
-              </div>
+              
+              <AnimatePresence>
+                {!isLegendCollapsed && (
+                  <motion.div
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: "auto", opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    className="overflow-hidden space-y-2.5"
+                  >
+                    <div className="flex items-center gap-3"><div className="size-4 rounded-lg bg-emerald-500" /><span className="text-sm">Đủ nước</span></div>
+                    <div className="flex items-center gap-3"><div className="size-4 rounded-lg bg-orange-500" /><span className="text-sm">Đang tưới</span></div>
+                    <div className="flex items-center gap-3"><div className="size-4 rounded-lg bg-red-500" /><span className="text-sm">Khẩn cấp</span></div>
+                    <div className="flex items-center gap-3"><div className="size-4 rounded-lg bg-zinc-700" /><span className="text-sm">Chưa lắp đặt</span></div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </div>
           </CardContent>
         </Card>
