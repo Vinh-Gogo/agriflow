@@ -1,0 +1,7 @@
+# HydroSense Hub Project Rules
+
+- **JSX Escaping**: Always escape `>` as `&gt;` and `<` as `&lt;` in JSX text to prevent parsing errors.
+- **Chart Context**: Components using `useChart` (like Tooltips) MUST be children of a `ChartContainer`.
+- **AI Flows**: Always export a typed wrapper function from files in `src/ai/flows/` to ensure type safety in components.
+- **Styling**: Prefer HSL variables from `globals.css` for colors to maintain theme consistency.
+- **Icons**: Use `lucide-react`. Ensure the icon exists (e.g., use `Droplets` for water, `Thermometer` for temp).
