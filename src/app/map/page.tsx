@@ -1,4 +1,3 @@
-
 "use client"
 
 import { useState } from "react";
@@ -12,15 +11,12 @@ import {
   Maximize2, 
   Minimize2,
   Pipette,
-  TreePine,
-  Leaf,
-  Flower2,
-  Tractor,
   AlertTriangle,
   CheckCircle2,
   Timer,
   ChevronDown,
-  ChevronUp
+  ChevronUp,
+  Activity
 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -102,70 +98,44 @@ const getStatusStyles = (thirstLevel: string, status: string) => {
   if (status === 'Offline') return {
     fill: 'url(#pattern-soil)',
     stroke: '#3f3f46',
-    glow: 'none',
-    opacity: 0.9
+    strokeWidth: 2,
+    glow: 'none'
   };
   
   if (thirstLevel === 'URGENT') return {
     fill: 'url(#gradient-urgent)',
     stroke: '#dc2626',
-    glow: 'drop-shadow(0 0 8px rgba(220, 38, 38, 0.6))',
-    opacity: 0.85
+    strokeWidth: 3,
+    glow: 'drop-shadow(0 0 12px rgba(220, 38, 38, 0.6))'
   };
   
   if (thirstLevel === 'NORMAL') return {
     fill: 'url(#gradient-healthy)',
     stroke: '#16a34a',
-    glow: 'drop-shadow(0 0 6px rgba(22, 163, 74, 0.4))',
-    opacity: 0.9
+    strokeWidth: 2,
+    glow: 'drop-shadow(0 0 8px rgba(22, 163, 74, 0.4))'
   };
   
   if (thirstLevel === 'SKIP') return {
     fill: 'url(#gradient-transition)',
     stroke: '#ea580c',
-    glow: 'drop-shadow(0 0 6px rgba(234, 88, 12, 0.4))',
-    opacity: 0.85
+    strokeWidth: 2,
+    glow: 'drop-shadow(0 0 8px rgba(234, 88, 12, 0.4))'
   };
   
   if (thirstLevel === 'LOW') return {
     fill: 'url(#gradient-low)',
     stroke: '#65a30d',
-    glow: 'drop-shadow(0 0 4px rgba(101, 163, 13, 0.3))',
-    opacity: 0.9
+    strokeWidth: 2,
+    glow: 'drop-shadow(0 0 6px rgba(101, 163, 13, 0.3))'
   };
   
   return {
     fill: '#27272a',
     stroke: '#52525b',
-    glow: 'none',
-    opacity: 1
+    strokeWidth: 2,
+    glow: 'none'
   };
-};
-
-// Organic shape generators using spline curves
-const generateOrganicPath = (points: string) => {
-  const coords = points.split(' ').map(p => {
-    const [x, y] = p.split(',').map(Number);
-    return { x, y };
-  });
-  
-  let path = `M ${coords[0].x},${coords[0].y}`;
-  
-  for (let i = 0; i < coords.length; i++) {
-    const curr = coords[i];
-    const next = coords[(i + 1) % coords.length];
-    const prev = coords[(i - 1 + coords.length) % coords.length];
-    
-    // Calculate control points for smooth curves
-    const cp1x = curr.x + (next.x - prev.x) * 0.15;
-    const cp1y = curr.y + (next.y - prev.y) * 0.15;
-    const cp2x = next.x - (coords[(i + 2) % coords.length].x - curr.x) * 0.15;
-    const cp2y = next.y - (coords[(i + 2) % coords.length].y - curr.y) * 0.15;
-    
-    path += ` C ${cp1x},${cp1y} ${cp2x},${cp2y} ${next.x},${next.y}`;
-  }
-  
-  return path + ' Z';
 };
 
 export default function SystemMapPage() {
@@ -174,12 +144,11 @@ export default function SystemMapPage() {
   const [hoveredZone, setHoveredZone] = useState<string | null>(null);
   const [isLegendCollapsed, setIsLegendCollapsed] = useState(false);
 
-  // Unequipped area - Storage/Buffer zone (Far right part of the base)
+  // Unequipped area - Storage/Buffer zone
   const unequippedArea = {
     id: 'zone-5',
     name: 'Kho Bãi & Vùng Đệm',
     description: 'Khu vực chưa lắp đặt hệ thống tưới tự động',
-    points: "600,350 850,350 850,650 600,650",
     type: 'storage'
   };
 
@@ -240,26 +209,26 @@ export default function SystemMapPage() {
               <defs>
                 {/* Gradients */}
                 <linearGradient id="gradient-healthy" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stopColor="#4ade80" stopOpacity="0.6" />
-                  <stop offset="50%" stopColor="#22c55e" stopOpacity="0.5" />
-                  <stop offset="100%" stopColor="#16a34a" stopOpacity="0.7" />
+                  <stop offset="0%" stopColor="#4ade80" stopOpacity="0.7" />
+                  <stop offset="50%" stopColor="#22c55e" stopOpacity="0.6" />
+                  <stop offset="100%" stopColor="#16a34a" stopOpacity="0.8" />
                 </linearGradient>
                 
                 <linearGradient id="gradient-urgent" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stopColor="#fca5a5" stopOpacity="0.7" />
-                  <stop offset="50%" stopColor="#f87171" stopOpacity="0.6" />
-                  <stop offset="100%" stopColor="#dc2626" stopOpacity="0.8" />
+                  <stop offset="0%" stopColor="#fca5a5" stopOpacity="0.8" />
+                  <stop offset="50%" stopColor="#f87171" stopOpacity="0.7" />
+                  <stop offset="100%" stopColor="#dc2626" stopOpacity="0.9" />
                 </linearGradient>
                 
                 <linearGradient id="gradient-transition" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stopColor="#fdba74" stopOpacity="0.7" />
-                  <stop offset="50%" stopColor="#fb923c" stopOpacity="0.6" />
-                  <stop offset="100%" stopColor="#ea580c" stopOpacity="0.8" />
+                  <stop offset="0%" stopColor="#fdba74" stopOpacity="0.8" />
+                  <stop offset="50%" stopColor="#fb923c" stopOpacity="0.7" />
+                  <stop offset="100%" stopColor="#ea580c" stopOpacity="0.9" />
                 </linearGradient>
                 
                 <linearGradient id="gradient-low" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stopColor="#bef264" stopOpacity="0.5" />
-                  <stop offset="100%" stopColor="#84cc16" stopOpacity="0.6" />
+                  <stop offset="0%" stopColor="#bef264" stopOpacity="0.6" />
+                  <stop offset="100%" stopColor="#84cc16" stopOpacity="0.7" />
                 </linearGradient>
                 
                 {/* Soil pattern for unequipped areas */}
@@ -269,123 +238,197 @@ export default function SystemMapPage() {
                   <circle cx="10" cy="12" r="1.5" fill="#52525b" opacity="0.3" />
                   <circle cx="18" cy="5" r="1" fill="#52525b" opacity="0.4" />
                 </pattern>
-                
-                {/* Filters */}
-                <filter id="glow-healthy" x="-50%" y="-50%" width="200%" height="200%">
-                  <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
-                  <feMerge>
-                    <feMergeNode in="coloredBlur"/>
-                    <feMergeNode in="SourceGraphic"/>
-                  </feMerge>
-                </filter>
+
+                {/* Pipe gradient */}
+                <linearGradient id="pipe-gradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                  <stop offset="0%" stopColor="#0284c7" />
+                  <stop offset="50%" stopColor="#0ea5e9" />
+                  <stop offset="100%" stopColor="#38bdf8" />
+                </linearGradient>
+
+                {/* Flow animation marker */}
+                <marker id="arrow" markerWidth="10" markerHeight="10" refX="5" refY="5" orient="auto">
+                  <path d="M0,0 L10,5 L0,10 L2,5 Z" fill="#38bdf8" />
+                </marker>
               </defs>
 
-              {/* Contiguous Plot Boundary with terrain texture */}
+              {/* Plot Boundary - Contiguous land shape */}
               <path 
-                d="M 50,50 L 350,50 L 350,350 L 850,350 L 850,650 L 50,650 Z"
+                d="M 50,50 L 350,50 L 350,350 L 600,350 L 600,50 L 850,50 L 850,650 L 50,650 Z"
                 fill="#f8fafc" 
-                stroke="#e2e8f0" 
-                strokeWidth="2"
-                className="dark:fill-slate-950 dark:stroke-slate-800"
+                stroke="#cbd5e1" 
+                strokeWidth="3"
+                className="dark:fill-slate-950 dark:stroke-slate-700"
               />
 
-              {/* Dense Water Distribution Network */}
+              {/* PIPE NETWORK - PROMINENT */}
               <g className="pipes">
-                {/* Main Pipeline (Trunk) */}
-                <path 
-                  d="M 200,650 L 200,50"
-                  fill="none" 
-                  stroke="#0ea5e9" 
-                  strokeWidth="8" 
+                {/* Main Trunk Pipeline - Thick and prominent */}
+                <line 
+                  x1="200" y1="650" x2="200" y2="50" 
+                  stroke="url(#pipe-gradient)" 
+                  strokeWidth="12" 
                   strokeLinecap="round"
-                  className="opacity-50"
+                  className="drop-shadow-lg"
                 />
-                <path 
-                  d="M 200,450 L 850,450"
-                  fill="none" 
-                  stroke="#0ea5e9" 
-                  strokeWidth="6" 
+                
+                {/* Main Horizontal Branch */}
+                <line 
+                  x1="200" y1="450" x2="600" y2="450" 
+                  stroke="url(#pipe-gradient)" 
+                  strokeWidth="10" 
                   strokeLinecap="round"
-                  className="opacity-40"
+                  className="drop-shadow-lg"
                 />
 
-                {/* Secondary Branches for Zone 1 */}
-                <path d="M 200,100 L 100,100 M 200,100 L 300,100" stroke="#0ea5e9" strokeWidth="3" className="opacity-30" />
-                <path d="M 200,200 L 100,200 M 200,200 L 300,200" stroke="#0ea5e9" strokeWidth="3" className="opacity-30" />
-                {/* Tertiary Micro-branches for Zone 1 */}
-                <path d="M 100,100 L 100,80 M 100,100 L 100,120 M 300,100 L 300,80 M 300,100 L 300,120" stroke="#0ea5e9" strokeWidth="1" className="opacity-20" />
+                {/* Zone 1: Vertical Sub-branches (Left side) */}
+                <line x1="200" y1="100" x2="100" y2="100" stroke="#0ea5e9" strokeWidth="6" className="opacity-80" />
+                <line x1="200" y1="100" x2="300" y2="100" stroke="#0ea5e9" strokeWidth="6" className="opacity-80" />
+                <line x1="200" y1="200" x2="100" y2="200" stroke="#0ea5e9" strokeWidth="6" className="opacity-80" />
+                <line x1="200" y1="200" x2="300" y2="200" stroke="#0ea5e9" strokeWidth="6" className="opacity-80" />
+                
+                {/* Zone 1: Micro distribution lines */}
+                <line x1="100" y1="100" x2="100" y2="50" stroke="#38bdf8" strokeWidth="3" className="opacity-60" />
+                <line x1="300" y1="100" x2="300" y2="50" stroke="#38bdf8" strokeWidth="3" className="opacity-60" />
+                <line x1="100" y1="200" x2="100" y2="250" stroke="#38bdf8" strokeWidth="3" className="opacity-60" />
+                <line x1="300" y1="200" x2="300" y2="250" stroke="#38bdf8" strokeWidth="3" className="opacity-60" />
 
-                {/* Secondary Branches for Zone 4 */}
-                <path d="M 200,300 L 120,300 M 200,300 L 280,300" stroke="#0ea5e9" strokeWidth="3" className="opacity-30" />
-                <path d="M 200,400 L 120,400 M 200,400 L 280,400" stroke="#0ea5e9" strokeWidth="3" className="opacity-30" />
+                {/* Zone 4: Horizontal Sub-branches (Middle Left) */}
+                <line x1="100" y1="350" x2="300" y2="350" stroke="#0ea5e9" strokeWidth="6" className="opacity-80" />
+                <line x1="150" y1="450" x2="300" y2="450" stroke="#0ea5e9" strokeWidth="6" className="opacity-80" />
 
-                {/* Secondary Branches for Zone 3 */}
-                <path d="M 200,500 L 100,500 M 200,500 L 300,500" stroke="#0ea5e9" strokeWidth="3" className="opacity-30" />
-                <path d="M 200,600 L 100,600 M 200,600 L 300,600" stroke="#0ea5e9" strokeWidth="3" className="opacity-30" />
+                {/* Zone 3: Lower Left Sub-branches */}
+                <line x1="200" y1="550" x2="100" y2="550" stroke="#0ea5e9" strokeWidth="6" className="opacity-80" />
+                <line x1="200" y1="550" x2="300" y2="550" stroke="#0ea5e9" strokeWidth="6" className="opacity-80" />
+                <line x1="200" y1="600" x2="100" y2="600" stroke="#0ea5e9" strokeWidth="6" className="opacity-80" />
+                <line x1="200" y1="600" x2="300" y2="600" stroke="#0ea5e9" strokeWidth="6" className="opacity-80" />
 
-                {/* Secondary Branches for Zone 2 */}
-                <path d="M 400,450 L 400,400 M 400,450 L 400,600" stroke="#0ea5e9" strokeWidth="3" className="opacity-30" />
-                <path d="M 550,450 L 550,400 M 550,450 L 550,600" stroke="#0ea5e9" strokeWidth="3" className="opacity-30" />
-                {/* Tertiary Micro-branches for Zone 2 */}
-                <path d="M 400,400 L 380,400 M 400,400 L 420,400 M 400,600 L 380,600 M 400,600 L 420,600" stroke="#0ea5e9" strokeWidth="1" className="opacity-20" />
+                {/* Zone 2: Right side Grid Pattern */}
+                <line x1="400" y1="350" x2="400" y2="650" stroke="#0ea5e9" strokeWidth="6" className="opacity-80" />
+                <line x1="500" y1="350" x2="500" y2="650" stroke="#0ea5e9" strokeWidth="6" className="opacity-80" />
+                
+                {/* Zone 2: Horizontal connectors */}
+                <line x1="350" y1="400" x2="600" y2="400" stroke="#38bdf8" strokeWidth="4" className="opacity-70" />
+                <line x1="350" y1="500" x2="600" y2="500" stroke="#38bdf8" strokeWidth="4" className="opacity-70" />
+                <line x1="350" y1="600" x2="600" y2="600" stroke="#38bdf8" strokeWidth="4" className="opacity-70" />
 
-                {/* Animated Flow Nodes */}
-                <circle r="3" fill="#38bdf8">
-                  <animateMotion dur="4s" repeatCount="indefinite" path="M 200,650 L 200,50" />
+                {/* Valve Stations */}
+                <circle cx="200" cy="450" r="8" fill="#0284c7" stroke="white" strokeWidth="2" className="drop-shadow-md" />
+                <circle cx="200" cy="200" r="6" fill="#0284c7" stroke="white" strokeWidth="2" className="drop-shadow-md" />
+                <circle cx="400" cy="450" r="6" fill="#0284c7" stroke="white" strokeWidth="2" className="drop-shadow-md" />
+                <circle cx="500" cy="450" r="6" fill="#0284c7" stroke="white" strokeWidth="2" className="drop-shadow-md" />
+
+                {/* FLOW ANIMATIONS - Multiple particles */}
+                {/* Main vertical flow */}
+                <circle r="4" fill="#7dd3fc" filter="drop-shadow(0 0 4px #38bdf8)">
+                  <animateMotion dur="3s" repeatCount="indefinite" path="M 200,650 L 200,50" />
                 </circle>
-                <circle r="2.5" fill="#38bdf8" opacity="0.7">
-                  <animateMotion dur="3s" repeatCount="indefinite" path="M 200,450 L 850,450" />
+                <circle r="3" fill="#bae6fd" opacity="0.8">
+                  <animateMotion dur="3s" begin="1s" repeatCount="indefinite" path="M 200,650 L 200,50" />
                 </circle>
+                <circle r="3" fill="#bae6fd" opacity="0.6">
+                  <animateMotion dur="3s" begin="2s" repeatCount="indefinite" path="M 200,650 L 200,50" />
+                </circle>
+
+                {/* Horizontal branch flow */}
+                <circle r="3" fill="#7dd3fc" filter="drop-shadow(0 0 4px #38bdf8)">
+                  <animateMotion dur="2s" repeatCount="indefinite" path="M 200,450 L 600,450" />
+                </circle>
+                <circle r="2.5" fill="#bae6fd" opacity="0.7">
+                  <animateMotion dur="2s" begin="0.7s" repeatCount="indefinite" path="M 200,450 L 600,450" />
+                </circle>
+
+                {/* Zone 1 branch flows */}
+                <circle r="2.5" fill="#7dd3fc">
+                  <animateMotion dur="1.5s" repeatCount="indefinite" path="M 200,100 L 100,100" />
+                </circle>
+                <circle r="2.5" fill="#7dd3fc">
+                  <animateMotion dur="1.5s" repeatCount="indefinite" path="M 200,200 L 300,200" />
+                </circle>
+
+                {/* Zone 2 vertical flows */}
+                <circle r="2.5" fill="#7dd3fc">
+                  <animateMotion dur="2s" repeatCount="indefinite" path="M 400,450 L 400,650" />
+                </circle>
+                <circle r="2.5" fill="#7dd3fc">
+                  <animateMotion dur="2s" begin="0.5s" repeatCount="indefinite" path="M 500,450 L 500,650" />
+                </circle>
+
+                {/* Flow direction indicators - animated dashes */}
+                <line x1="200" y1="650" x2="200" y2="50" stroke="#7dd3fc" strokeWidth="2" strokeDasharray="10,10" opacity="0.5">
+                  <animate attributeName="stroke-dashoffset" from="20" to="0" dur="1s" repeatCount="indefinite" />
+                </line>
               </g>
 
-              {/* Zone 1: Vegetable Garden */}
+              {/* Zone 1: Vegetable Garden - RECTANGLE */}
               <TooltipProvider>
                 <Tooltip>
                   <TooltipTrigger asChild>
                     <g 
-                      className="cursor-pointer transition-all duration-500"
+                      className="cursor-pointer transition-all duration-300"
                       onClick={() => setSelectedZone(mockZones[0].id)}
                       onMouseEnter={() => setHoveredZone(mockZones[0].id)}
                       onMouseLeave={() => setHoveredZone(null)}
                       style={{ filter: hoveredZone === mockZones[0].id ? getStatusStyles(mockZones[0].thirstLevel, mockZones[0].status).glow : 'none' }}
                     >
-                      <path 
-                        d={generateOrganicPath("50,50 350,50 350,250 50,250")}
-                        className={`transition-all duration-300 ${hoveredZone === mockZones[0].id ? 'opacity-100' : 'opacity-90'}`}
+                      <rect 
+                        x="50" y="50" width="300" height="200" rx="4"
+                        className="transition-all duration-300"
                         fill={getStatusStyles(mockZones[0].thirstLevel, mockZones[0].status).fill}
                         stroke={getStatusStyles(mockZones[0].thirstLevel, mockZones[0].status).stroke}
-                        strokeWidth={hoveredZone === mockZones[0].id ? 3 : 2}
+                        strokeWidth={hoveredZone === mockZones[0].id ? 4 : getStatusStyles(mockZones[0].thirstLevel, mockZones[0].status).strokeWidth}
                       />
-                      <text x="200" y="150" className="text-xs font-bold fill-slate-700 dark:fill-slate-200 pointer-events-none" textAnchor="middle">
+                      {/* Grid pattern for crops */}
+                      <g stroke="currentColor" strokeWidth="0.5" opacity="0.2" className="pointer-events-none">
+                        {[...Array(6)].map((_, i) => (
+                          <line key={`h1-${i}`} x1="60" y1={70 + i * 30} x2="340" y2={70 + i * 30} />
+                        ))}
+                        {[...Array(10)].map((_, i) => (
+                          <line key={`v1-${i}`} x1={80 + i * 30} y1="60" x2={80 + i * 30} y2="240" />
+                        ))}
+                      </g>
+                      <text x="200" y="155" className="text-sm font-bold fill-slate-700 dark:fill-slate-200 pointer-events-none" textAnchor="middle">
                         {mockZones[0].name}
+                      </text>
+                      <text x="200" y="175" className="text-xs fill-slate-500 pointer-events-none" textAnchor="middle">
+                        {mockZones[0].soilMoisture}% ẩm
                       </text>
                     </g>
                   </TooltipTrigger>
                   <TooltipContent side="top" className="bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl border-slate-200 dark:border-slate-700 p-3 rounded-xl shadow-xl">
-                    <p className="font-bold text-emerald-600">{mockZones[0].name}</p>
+                    <div className="space-y-1">
+                      <p className="font-bold text-emerald-600">{mockZones[0].name}</p>
+                      <p className="text-xs text-slate-500">Hình chữ nhật • {mockZones[0].area}</p>
+                    </div>
                   </TooltipContent>
                 </Tooltip>
               </TooltipProvider>
 
-              {/* Zone 4: Lawn */}
+              {/* Zone 4: Lawn - RECTANGLE (Middle Left) */}
               <TooltipProvider>
                 <Tooltip>
                   <TooltipTrigger asChild>
                     <g 
-                      className="cursor-pointer transition-all duration-500"
+                      className="cursor-pointer transition-all duration-300"
                       onClick={() => setSelectedZone(mockZones[3].id)}
                       onMouseEnter={() => setHoveredZone(mockZones[3].id)}
                       onMouseLeave={() => setHoveredZone(null)}
                       style={{ filter: hoveredZone === mockZones[3].id ? getStatusStyles(mockZones[3].thirstLevel, mockZones[3].status).glow : 'none' }}
                     >
-                      <path 
-                        d={generateOrganicPath("50,250 350,250 350,450 50,450")}
-                        className={`transition-all duration-300 ${hoveredZone === mockZones[3].id ? 'opacity-100' : 'opacity-90'}`}
+                      <rect 
+                        x="50" y="250" width="300" height="200" rx="4"
+                        className="transition-all duration-300"
                         fill={getStatusStyles(mockZones[3].thirstLevel, mockZones[3].status).fill}
                         stroke={getStatusStyles(mockZones[3].thirstLevel, mockZones[3].status).stroke}
-                        strokeWidth={hoveredZone === mockZones[3].id ? 3 : 2}
+                        strokeWidth={hoveredZone === mockZones[3].id ? 4 : getStatusStyles(mockZones[3].thirstLevel, mockZones[3].status).strokeWidth}
                       />
-                      <text x="200" y="350" className="text-xs font-bold fill-slate-700 dark:fill-slate-200 pointer-events-none" textAnchor="middle">
+                      {/* Lawn texture lines */}
+                      <g stroke="currentColor" strokeWidth="1" opacity="0.15" className="pointer-events-none">
+                        {[...Array(8)].map((_, i) => (
+                          <path key={`lawn-${i}`} d={`M 70,${280 + i * 25} Q 200,${270 + i * 25} 330,${280 + i * 25}`} fill="none" />
+                        ))}
+                      </g>
+                      <text x="200" y="355" className="text-sm font-bold fill-slate-700 dark:fill-slate-200 pointer-events-none" textAnchor="middle">
                         {mockZones[3].name}
                       </text>
                     </g>
@@ -396,26 +439,36 @@ export default function SystemMapPage() {
                 </Tooltip>
               </TooltipProvider>
 
-              {/* Zone 3: Flower Garden */}
+              {/* Zone 3: Flower Garden - RECTANGLE (Bottom Left) */}
               <TooltipProvider>
                 <Tooltip>
                   <TooltipTrigger asChild>
                     <g 
-                      className="cursor-pointer transition-all duration-500"
+                      className="cursor-pointer transition-all duration-300"
                       onClick={() => setSelectedZone(mockZones[2].id)}
                       onMouseEnter={() => setHoveredZone(mockZones[2].id)}
                       onMouseLeave={() => setHoveredZone(null)}
                       style={{ filter: hoveredZone === mockZones[2].id ? getStatusStyles(mockZones[2].thirstLevel, mockZones[2].status).glow : 'none' }}
                     >
-                      <path 
-                        d={generateOrganicPath("50,450 350,450 350,650 50,650")}
-                        className={`transition-all duration-300 ${hoveredZone === mockZones[2].id ? 'opacity-100' : 'opacity-85'}`}
+                      <rect 
+                        x="50" y="450" width="300" height="200" rx="4"
+                        className="transition-all duration-300"
                         fill={getStatusStyles(mockZones[2].thirstLevel, mockZones[2].status).fill}
                         stroke={getStatusStyles(mockZones[2].thirstLevel, mockZones[2].status).stroke}
-                        strokeWidth={hoveredZone === mockZones[2].id ? 3 : 2}
+                        strokeWidth={hoveredZone === mockZones[2].id ? 4 : getStatusStyles(mockZones[2].thirstLevel, mockZones[2].status).strokeWidth}
                       />
-                      <text x="200" y="550" className="text-xs font-bold fill-slate-700 dark:fill-slate-200 pointer-events-none" textAnchor="middle">
+                      {/* Flower bed pattern */}
+                      <g className="pointer-events-none">
+                        <circle cx="100" cy="500" r="8" fill="currentColor" opacity="0.2" />
+                        <circle cx="150" cy="550" r="8" fill="currentColor" opacity="0.2" />
+                        <circle cx="250" cy="520" r="8" fill="currentColor" opacity="0.2" />
+                        <circle cx="300" cy="600" r="8" fill="currentColor" opacity="0.2" />
+                      </g>
+                      <text x="200" y="555" className="text-sm font-bold fill-slate-700 dark:fill-slate-200 pointer-events-none" textAnchor="middle">
                         {mockZones[2].name}
+                      </text>
+                      <text x="200" y="575" className="text-xs fill-slate-500 pointer-events-none" textAnchor="middle">
+                        Đang tưới...
                       </text>
                     </g>
                   </TooltipTrigger>
@@ -425,36 +478,61 @@ export default function SystemMapPage() {
                 </Tooltip>
               </TooltipProvider>
 
-              {/* Zone 2: Orchard */}
+              {/* Zone 2: Orchard - RECTANGLE (Right side) */}
               <TooltipProvider>
                 <Tooltip>
                   <TooltipTrigger asChild>
                     <g 
-                      className="cursor-pointer transition-all duration-500"
+                      className="cursor-pointer transition-all duration-300"
                       onClick={() => setSelectedZone(mockZones[1].id)}
                       onMouseEnter={() => setHoveredZone(mockZones[1].id)}
                       onMouseLeave={() => setHoveredZone(null)}
                       style={{ filter: hoveredZone === mockZones[1].id ? getStatusStyles(mockZones[1].thirstLevel, mockZones[1].status).glow : 'none' }}
                     >
-                      <path 
-                        d={generateOrganicPath("350,350 600,350 600,650 350,650")}
-                        className={`transition-all duration-300 ${hoveredZone === mockZones[1].id ? 'opacity-100' : 'opacity-85'}`}
+                      <rect 
+                        x="350" y="350" width="250" height="300" rx="4"
+                        className="transition-all duration-300"
                         fill={getStatusStyles(mockZones[1].thirstLevel, mockZones[1].status).fill}
                         stroke={getStatusStyles(mockZones[1].thirstLevel, mockZones[1].status).stroke}
-                        strokeWidth={hoveredZone === mockZones[1].id ? 3 : 2}
+                        strokeWidth={hoveredZone === mockZones[1].id ? 4 : getStatusStyles(mockZones[1].thirstLevel, mockZones[1].status).strokeWidth}
                       />
-                      <text x="475" y="500" className="text-xs font-bold fill-slate-700 dark:fill-slate-200 pointer-events-none" textAnchor="middle">
+                      {/* Tree grid pattern */}
+                      <g className="pointer-events-none">
+                        {[...Array(3)].map((_, row) => (
+                          [...Array(4)].map((_, col) => (
+                            <g key={`tree-${row}-${col}`} transform={`translate(${400 + col * 50}, ${400 + row * 80})`}>
+                              <circle r="12" fill="currentColor" opacity="0.3" />
+                              <circle r="6" fill="currentColor" opacity="0.5" />
+                            </g>
+                          ))
+                        ))}
+                      </g>
+                      {/* Warning badge for urgent */}
+                      {mockZones[1].thirstLevel === 'URGENT' && (
+                        <g transform="translate(475, 420)">
+                          <circle r="20" fill="#dc2626" className="animate-pulse" opacity="0.2" />
+                          <circle r="15" fill="#dc2626" />
+                          <text x="0" y="5" className="text-xs font-bold fill-white" textAnchor="middle">!</text>
+                        </g>
+                      )}
+                      <text x="475" y="520" className="text-sm font-bold fill-slate-700 dark:fill-slate-200 pointer-events-none" textAnchor="middle">
                         {mockZones[1].name}
                       </text>
                     </g>
                   </TooltipTrigger>
                   <TooltipContent side="top" className="bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl border-red-200 dark:border-red-900 p-3 rounded-xl shadow-xl">
-                    <p className="font-bold text-red-600">{mockZones[1].name}</p>
+                    <div className="space-y-1">
+                      <p className="font-bold text-red-600 flex items-center gap-2">
+                        <AlertTriangle size={14} />
+                        {mockZones[1].name}
+                      </p>
+                      <p className="text-xs text-red-500">Cần tưới gấp! Chỉ {mockZones[1].soilMoisture}% ẩm</p>
+                    </div>
                   </TooltipContent>
                 </Tooltip>
               </TooltipProvider>
 
-              {/* Zone 5: Unequipped */}
+              {/* Zone 5: Unequipped - RECTANGLE (Far Right) */}
               <TooltipProvider>
                 <Tooltip>
                   <TooltipTrigger asChild>
@@ -463,31 +541,66 @@ export default function SystemMapPage() {
                       onMouseEnter={() => setHoveredZone(unequippedArea.id)}
                       onMouseLeave={() => setHoveredZone(null)}
                     >
-                      <path 
-                        d={generateOrganicPath(unequippedArea.points)}
+                      <rect 
+                        x="600" y="50" width="250" height="600" rx="4"
                         fill="url(#pattern-soil)"
                         stroke="#52525b"
-                        strokeWidth={hoveredZone === unequippedArea.id ? 3 : 2}
-                        className="opacity-90"
+                        strokeWidth={hoveredZone === unequippedArea.id ? 4 : 2}
+                        className="transition-all duration-300"
                       />
-                      <text x="725" y="500" className="text-xs font-bold fill-slate-500 pointer-events-none" textAnchor="middle">
+                      {/* Storage building icon */}
+                      <rect x="650" y="150" width="150" height="100" rx="4" fill="#52525b" opacity="0.5" />
+                      <rect x="670" y="170" width="40" height="40" rx="2" fill="#71717a" opacity="0.6" />
+                      <rect x="740" y="170" width="40" height="40" rx="2" fill="#71717a" opacity="0.6" />
+                      <text x="725" y="500" className="text-sm font-bold fill-slate-400 pointer-events-none" textAnchor="middle">
                         {unequippedArea.name}
                       </text>
                     </g>
                   </TooltipTrigger>
                   <TooltipContent side="top" className="bg-slate-800 text-white p-3 rounded-xl">
                     <p className="font-bold text-slate-300">{unequippedArea.name}</p>
+                    <p className="text-xs text-slate-400 mt-1">Chưa có hệ thống tưới</p>
                   </TooltipContent>
                 </Tooltip>
               </TooltipProvider>
 
+              {/* Sensors */}
+              <g className="sensors">
+                {/* Zone 1 Sensor */}
+                <g transform="translate(200, 150)">
+                  <circle r="10" fill="white" stroke="#0ea5e9" strokeWidth="3" className="drop-shadow-lg" />
+                  <text y="3" x="0" className="text-[9px] font-bold fill-sky-600 text-center" textAnchor="middle">S1</text>
+                  <circle r="15" fill="none" stroke="#0ea5e9" strokeWidth="2" className="animate-ping opacity-40" />
+                </g>
+                
+                {/* Zone 4 Sensor */}
+                <g transform="translate(200, 350)">
+                  <circle r="10" fill="white" stroke="#0ea5e9" strokeWidth="3" className="drop-shadow-lg" />
+                  <text y="3" x="0" className="text-[9px] font-bold fill-sky-600 text-center" textAnchor="middle">S4</text>
+                </g>
+
+                {/* Zone 3 Sensor */}
+                <g transform="translate(200, 550)">
+                  <circle r="10" fill="white" stroke="#0ea5e9" strokeWidth="3" className="drop-shadow-lg" />
+                  <text y="3" x="0" className="text-[9px] font-bold fill-sky-600 text-center" textAnchor="middle">S3</text>
+                  <circle r="15" fill="none" stroke="#f97316" strokeWidth="2" className="animate-ping opacity-40" />
+                </g>
+                
+                {/* Zone 2 Sensor */}
+                <g transform="translate(475, 500)">
+                  <circle r="10" fill="white" stroke="#0ea5e9" strokeWidth="3" className="drop-shadow-lg" />
+                  <text y="3" x="0" className="text-[9px] font-bold fill-sky-600 text-center" textAnchor="middle">S2</text>
+                  <circle r="15" fill="none" stroke="#ef4444" strokeWidth="2" className="animate-ping opacity-60" />
+                </g>
+              </g>
+
             </motion.svg>
 
             {/* Legend */}
-            <div className="absolute bottom-6 left-6 p-5 bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl rounded-2xl border border-slate-200 dark:border-slate-700 shadow-2xl space-y-3 min-w-[200px]">
+            <div className="absolute bottom-6 left-6 p-5 bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl rounded-2xl border border-slate-200 dark:border-slate-700 shadow-2xl space-y-3 min-w-[220px]">
               <div className="flex items-center justify-between gap-2 text-xs font-bold uppercase tracking-wider text-slate-500 mb-3">
                 <div className="flex items-center gap-2">
-                  <Pipette className="size-4" /> Chú Thích Bản Đồ
+                  <Pipette className="size-4" /> Chú Thích
                 </div>
                 <Button 
                   variant="ghost" 
@@ -505,21 +618,72 @@ export default function SystemMapPage() {
                     initial={{ height: 0, opacity: 0 }}
                     animate={{ height: "auto", opacity: 1 }}
                     exit={{ height: 0, opacity: 0 }}
-                    className="overflow-hidden space-y-2.5"
+                    className="overflow-hidden space-y-3"
                   >
-                    <div className="flex items-center gap-3"><div className="size-4 rounded-lg bg-emerald-500" /><span className="text-sm">Đủ nước</span></div>
-                    <div className="flex items-center gap-3"><div className="size-4 rounded-lg bg-orange-500" /><span className="text-sm">Đang tưới</span></div>
-                    <div className="flex items-center gap-3"><div className="size-4 rounded-lg bg-red-500" /><span className="text-sm">Khẩn cấp</span></div>
-                    <div className="flex items-center gap-3"><div className="size-4 rounded-lg bg-zinc-700" /><span className="text-sm">Chưa lắp đặt</span></div>
-                    <div className="pt-2 border-t border-slate-100 dark:border-slate-800">
-                      <div className="flex items-center gap-2 text-[10px] text-slate-400">
-                        <div className="w-6 h-1 bg-sky-500/50 rounded-full" />
-                        <span>Hệ thống ống dẫn</span>
+                    <div className="flex items-center gap-3">
+                      <div className="size-4 rounded bg-emerald-500 shadow-sm shadow-emerald-500/50" />
+                      <span className="text-sm font-medium">Đủ nước</span>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <div className="size-4 rounded bg-lime-500 shadow-sm shadow-lime-500/50" />
+                      <span className="text-sm font-medium">Hơi thiếu</span>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <div className="size-4 rounded bg-orange-500 shadow-sm shadow-orange-500/50" />
+                      <span className="text-sm font-medium">Đang tưới</span>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <div className="size-4 rounded bg-red-500 shadow-sm shadow-red-500/50" />
+                      <span className="text-sm font-medium">Khẩn cấp</span>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <div className="size-4 rounded bg-zinc-700 border border-zinc-600" />
+                      <span className="text-sm font-medium">Chưa lắp đặt</span>
+                    </div>
+                    
+                    <div className="pt-3 border-t border-slate-200 dark:border-slate-700 space-y-2">
+                      <div className="flex items-center gap-2 text-[10px] text-slate-500">
+                        <div className="w-8 h-2 bg-gradient-to-r from-sky-600 to-sky-400 rounded-full" />
+                        <span>Đường ống chính</span>
+                      </div>
+                      <div className="flex items-center gap-2 text-[10px] text-slate-500">
+                        <div className="w-3 h-3 rounded-full bg-white border-2 border-sky-500" />
+                        <span>Cảm biến</span>
+                      </div>
+                      <div className="flex items-center gap-2 text-[10px] text-sky-600 font-medium">
+                        <Activity className="size-3" />
+                        <span>Dòng chảy đang hoạt động</span>
                       </div>
                     </div>
                   </motion.div>
                 )}
               </AnimatePresence>
+            </div>
+
+            {/* Status Overlay */}
+            <div className="absolute top-6 right-6 flex flex-col gap-2">
+              <div className="bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl p-4 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-xl">
+                <div className="flex items-center gap-3">
+                  <div className="relative">
+                    <Waves className="size-5 text-sky-500" />
+                    <span className="absolute -top-1 -right-1 w-2 h-2 bg-sky-400 rounded-full animate-pulse" />
+                  </div>
+                  <div>
+                    <p className="text-[10px] font-bold text-slate-400 uppercase">Áp suất hệ thống</p>
+                    <p className="text-xl font-bold text-slate-800 dark:text-slate-100">2.4 bar</p>
+                  </div>
+                </div>
+              </div>
+              
+              <div className="bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl p-4 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-xl">
+                <div className="flex items-center gap-3">
+                  <Zap className="size-5 text-yellow-500" />
+                  <div>
+                    <p className="text-[10px] font-bold text-slate-400 uppercase">Trạng thái</p>
+                    <p className="text-lg font-bold text-emerald-600">Hoạt động</p>
+                  </div>
+                </div>
+              </div>
             </div>
           </CardContent>
         </Card>
@@ -530,44 +694,130 @@ export default function SystemMapPage() {
             {selectedZone ? (
               <motion.div
                 key={selectedZone}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20 }}
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -20 }}
+                transition={{ duration: 0.3 }}
               >
                 <Card className="border-none shadow-2xl bg-white dark:bg-slate-900 rounded-3xl overflow-hidden">
                   <div className={`h-2 w-full ${
-                    mockZones.find(z => z.id === selectedZone)?.thirstLevel === 'URGENT' ? 'bg-red-500' : 'bg-emerald-500'
+                    mockZones.find(z => z.id === selectedZone)?.thirstLevel === 'URGENT' ? 'bg-red-500' :
+                    mockZones.find(z => z.id === selectedZone)?.thirstLevel === 'SKIP' ? 'bg-orange-500' :
+                    'bg-emerald-500'
                   }`} />
-                  <CardHeader>
-                    <CardTitle>{mockZones.find(z => z.id === selectedZone)?.name}</CardTitle>
-                    <CardDescription>{mockZones.find(z => z.id === selectedZone)?.description}</CardDescription>
-                  </CardHeader>
-                  <CardContent className="space-y-6">
-                    <div className="grid grid-cols-2 gap-3">
-                      <div className="bg-slate-50 dark:bg-slate-800/50 p-4 rounded-2xl border border-slate-100">
-                        <div className="flex items-center gap-2 text-slate-400 mb-1"><Droplets size={14} /><span className="text-[10px] font-bold">ẨM ĐỘ</span></div>
-                        <span className="text-2xl font-bold">{mockZones.find(z => z.id === selectedZone)?.soilMoisture}%</span>
+                  <CardHeader className="pb-2">
+                    <div className="flex items-start justify-between">
+                      <div>
+                        <CardTitle className="text-lg font-bold text-slate-800 dark:text-slate-100">
+                          {mockZones.find(z => z.id === selectedZone)?.name}
+                        </CardTitle>
+                        <CardDescription className="mt-1 text-xs">
+                          {mockZones.find(z => z.id === selectedZone)?.description}
+                        </CardDescription>
                       </div>
-                      <div className="bg-slate-50 dark:bg-slate-800/50 p-4 rounded-2xl border border-slate-100">
-                        <div className="flex items-center gap-2 text-slate-400 mb-1"><Thermometer size={14} /><span className="text-[10px] font-bold">NHIỆT ĐỘ</span></div>
-                        <span className="text-2xl font-bold">{mockZones.find(z => z.id === selectedZone)?.temperature}°C</span>
+                      <Badge 
+                        variant={mockZones.find(z => z.id === selectedZone)?.thirstLevel === 'URGENT' ? 'destructive' : 'default'}
+                        className="rounded-full"
+                      >
+                        {mockZones.find(z => z.id === selectedZone)?.status}
+                      </Badge>
+                    </div>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    <div className="grid grid-cols-2 gap-3">
+                      <div className="bg-slate-50 dark:bg-slate-800/50 p-3 rounded-xl border border-slate-100 dark:border-slate-800">
+                        <div className="flex items-center gap-2 text-slate-400 mb-1">
+                          <Droplets size={12} />
+                          <span className="text-[10px] font-bold uppercase">Ẩm độ</span>
+                        </div>
+                        <div className="flex items-end gap-1">
+                          <span className="text-2xl font-bold text-slate-800 dark:text-slate-100">
+                            {mockZones.find(z => z.id === selectedZone)?.soilMoisture}%
+                          </span>
+                        </div>
+                        <Progress 
+                          value={mockZones.find(z => z.id === selectedZone)?.soilMoisture} 
+                          className="h-1.5 mt-2"
+                        />
+                      </div>
+                      
+                      <div className="bg-slate-50 dark:bg-slate-800/50 p-3 rounded-xl border border-slate-100 dark:border-slate-800">
+                        <div className="flex items-center gap-2 text-slate-400 mb-1">
+                          <Thermometer size={12} />
+                          <span className="text-[10px] font-bold uppercase">Nhiệt độ</span>
+                        </div>
+                        <span className="text-2xl font-bold text-slate-800 dark:text-slate-100">
+                          {mockZones.find(z => z.id === selectedZone)?.temperature}°C
+                        </span>
                       </div>
                     </div>
-                    <Button className="w-full rounded-xl h-12 font-bold" asChild>
+
+                    <div className="p-3 bg-gradient-to-r from-sky-50 to-blue-50 dark:from-sky-950/30 dark:to-blue-950/30 rounded-xl border border-sky-100 dark:border-sky-900/30">
+                      <div className="flex items-center gap-2 text-sky-600 mb-1">
+                        <Activity size={12} />
+                        <span className="text-[10px] font-bold uppercase">Lịch tưới tiếp theo</span>
+                      </div>
+                      <p className="text-sm font-bold text-sky-900 dark:text-sky-100">
+                        {mockZones.find(z => z.id === selectedZone)?.nextWatering}
+                      </p>
+                    </div>
+
+                    <Button className="w-full rounded-xl h-11 font-bold shadow-lg" asChild>
                       <a href={`/zones/${selectedZone}`}>Mở Bảng Điều Khiển</a>
                     </Button>
                   </CardContent>
                 </Card>
               </motion.div>
             ) : (
-              <Card className="border-none shadow-2xl bg-white dark:bg-slate-900 rounded-3xl">
-                <CardContent className="p-8 text-center text-muted-foreground">Chọn khu vực để xem chi tiết.</CardContent>
-              </Card>
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+              >
+                <Card className="border-none shadow-2xl bg-white dark:bg-slate-900 rounded-3xl">
+                  <CardContent className="p-8 text-center">
+                    <div className="w-16 h-16 bg-slate-100 dark:bg-slate-800 rounded-full flex items-center justify-center mx-auto mb-4">
+                      <MapIcon className="size-8 text-slate-400" />
+                    </div>
+                    <h3 className="text-lg font-bold text-slate-800 dark:text-slate-200 mb-2">
+                      Chọn khu vực
+                    </h3>
+                    <p className="text-sm text-slate-500">
+                      Nhấp vào bất kỳ khu vực nào trên bản đồ để xem chi tiết và điều khiển.
+                    </p>
+                  </CardContent>
+                </Card>
+              </motion.div>
             )}
           </AnimatePresence>
+
+          {/* Network Info Card */}
+          <Card className="border-none shadow-xl bg-gradient-to-br from-sky-500 to-blue-600 text-white rounded-3xl overflow-hidden">
+            <CardHeader className="pb-2">
+              <CardTitle className="text-sm font-bold flex items-center gap-2 text-white/90">
+                <Waves className="size-4" /> Mạng Lưới Cấp Nước
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="grid grid-cols-2 gap-3">
+                <div className="bg-white/10 backdrop-blur-md rounded-xl p-3">
+                  <p className="text-[10px] font-bold text-white/70 uppercase">Lưu lượng</p>
+                  <p className="text-xl font-bold">1,240 <span className="text-sm font-normal">L/h</span></p>
+                </div>
+                <div className="bg-white/10 backdrop-blur-md rounded-xl p-3">
+                  <p className="text-[10px] font-bold text-white/70 uppercase">Van đang mở</p>
+                  <p className="text-xl font-bold">3 <span className="text-sm font-normal">/ 5</span></p>
+                </div>
+              </div>
+              
+              <div className="flex items-center gap-2 text-xs bg-white/10 rounded-lg p-3">
+                <div className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse" />
+                <span>Hệ thống hoạt động bình thường</span>
+              </div>
+            </CardContent>
+          </Card>
         </div>
       </div>
     </div>
   );
 }
-
