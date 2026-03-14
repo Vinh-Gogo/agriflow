@@ -84,7 +84,7 @@ export default function Dashboard() {
                 <CardDescription>Status of your irrigation zones.</CardDescription>
               </div>
               <Button variant="outline" size="sm" asChild>
-                <Link href="/zones">View All</Link>
+                <Link href="/zones">View Map</Link>
               </Button>
             </div>
           </CardHeader>
